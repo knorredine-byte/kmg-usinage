@@ -1,264 +1,482 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#05080a">
-<title>KMG USINAGE</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050709">
+
+<title>KMG USINAGE — Contact</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+:root{
+  --black:#050709;
+  --panel:#0b0f12;
+  --panel2:#10161a;
+  --cyan:#00b9f4;
+  --cyan2:#008fbf;
+  --white:#f1f4f5;
+  --gray:#aab3b7;
+  --metal:#cfd4d6;
 }
 
-body {
-  min-height: 100vh;
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--white);
+
   background:
-    radial-gradient(circle at 50% 0%, rgba(0,190,235,.10), transparent 30%),
-    linear-gradient(135deg, #161b1e, #050708 45%, #111619);
-  color: #f2f4f5;
-  font-family: Arial, Helvetica, sans-serif;
-  padding: 18px 10px 30px;
+    radial-gradient(circle at 50% 0%,rgba(0,185,244,.10),transparent 30%),
+    linear-gradient(135deg,#151b1f 0%,#050709 43%,#11171b 100%);
+
+  overflow-x:hidden;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: .13;
-  background: repeating-linear-gradient(
-    115deg,
-    transparent 0 4px,
-    rgba(255,255,255,.08) 5px,
-    transparent 6px 10px
-  );
+/* Texture métal très légère */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.16;
+
+  background:
+    repeating-linear-gradient(
+      115deg,
+      transparent 0 4px,
+      rgba(255,255,255,.05) 5px,
+      transparent 6px 10px
+    );
 }
 
-.page {
-  width: min(100%, 560px);
-  margin: auto;
-  position: relative;
+/* =========================
+   CONTENEUR
+========================= */
+
+.page{
+  width:min(94%,560px);
+  margin:0 auto;
+  padding:16px 0 22px;
+  position:relative;
 }
 
-/* ===== EN-TÊTE ===== */
+/* =========================
+   GRAND CADRE DU HAUT
+========================= */
 
-.hero {
-  text-align: center;
-  padding: 34px 15px 28px;
-  border: 1px solid #00bce8;
-  background: linear-gradient(145deg, #101619, #050809 70%, #151c20);
+.hero{
+  position:relative;
+  overflow:hidden;
+
+  padding:30px 18px 28px;
+
+  text-align:center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #12191d 0%,
+      #070a0c 55%,
+      #151c20 100%
+    );
+
+  border:1px solid rgba(0,185,244,.75);
+
   box-shadow:
     0 18px 45px rgba(0,0,0,.55),
-    inset 0 1px rgba(255,255,255,.12);
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% 88%,
-    96% 100%,
-    4% 100%,
-    0 88%
+    inset 0 1px rgba(255,255,255,.10);
+
+  clip-path:polygon(
+    0 28px,
+    28px 0,
+    calc(100% - 28px) 0,
+    100% 28px,
+    100% calc(100% - 28px),
+    calc(100% - 28px) 100%,
+    28px 100%,
+    0 calc(100% - 28px)
   );
 }
 
-.logo {
-  font-size: clamp(70px, 19vw, 105px);
-  line-height: .82;
-  font-weight: 900;
-  letter-spacing: -8px;
-  color: #d7d9da;
-  text-shadow:
-    2px 2px 0 #70767a,
-    5px 6px 14px #000;
-}
-
-.logo span {
-  color: #00bce8;
-}
-
-.brand {
-  margin-top: 14px;
-  font-size: clamp(18px, 5vw, 27px);
-  letter-spacing: 10px;
-  color: #00bce8;
-  font-weight: 700;
-}
-
-.services {
-  margin-top: 30px;
-  font-size: clamp(14px, 4vw, 19px);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.services span {
-  color: #00aeda;
-  padding: 0 5px;
-}
-
-/* ===== SLOGAN ===== */
-
-.slogan {
-  margin-top: 28px;
-  padding: 0 5px 8px;
-  font-size: clamp(21px, 6vw, 31px);
-  line-height: 1.35;
-  letter-spacing: 2px;
-  font-weight: 700;
-  text-transform: uppercase;
-  border-bottom: 1px solid #00bce8;
-  box-shadow: 0 8px 16px -12px #00bce8;
-}
-
-.slogan strong {
-  color: #00bce8;
-}
-
-/* ===== CONTACT ===== */
-
-.section-title {
-  margin: 22px 5px 12px;
-  color: #00bce8;
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-.buttons {
-  display: grid;
-  gap: 10px;
-}
-
-.btn {
-  min-height: 62px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 8px 16px;
-  color: #f2f4f5;
-  text-decoration: none;
+/* Petite ligne lumineuse */
+.hero::after{
+  content:"";
+  position:absolute;
+  left:10%;
+  right:10%;
+  bottom:11px;
+  height:1px;
 
   background:
-    linear-gradient(100deg, #11191d, #070a0c);
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cyan),
+      transparent
+    );
 
-  border: 1px solid rgba(215,220,222,.65);
+  box-shadow:0 0 12px var(--cyan);
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo{
+  display:inline-block;
+
+  font-size:clamp(72px,21vw,115px);
+  line-height:.82;
+
+  font-weight:900;
+  letter-spacing:-9px;
+
+  color:var(--metal);
+
+  text-shadow:
+    2px 2px 0 #71787c,
+    4px 5px 12px #000;
+}
+
+.logo span{
+  color:var(--cyan);
+  text-shadow:
+    0 0 12px rgba(0,185,244,.60);
+}
+
+/* =========================
+   USINAGE
+========================= */
+
+.brand{
+  margin-top:14px;
+
+  font-size:clamp(18px,5vw,28px);
+  letter-spacing:11px;
+
+  color:var(--cyan);
+
+  font-weight:700;
+}
+
+/* =========================
+   SERVICES
+========================= */
+
+.services{
+  margin-top:28px;
+
+  font-size:clamp(14px,4vw,20px);
+  letter-spacing:2px;
+
+  color:#e7ebed;
+
+  text-transform:uppercase;
+}
+
+.services .dot{
+  color:var(--cyan);
+  padding:0 5px;
+}
+
+/* ligne décorative */
+.decorative-line{
+  width:72%;
+  height:1px;
+
+  margin:22px auto 24px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cyan),
+      transparent
+    );
+
+  box-shadow:0 0 10px rgba(0,185,244,.65);
+}
+
+/* petit détail central */
+.decorative-line::after{
+  content:"";
+  display:block;
+
+  width:26px;
+  height:8px;
+
+  margin:-4px auto 0;
+
+  border-left:1px solid var(--cyan);
+  border-right:1px solid var(--cyan);
+
+  transform:skewX(-35deg);
+
+  background:#071014;
+}
+
+/* =========================
+   BOUTONS
+========================= */
+
+.buttons{
+  display:grid;
+  gap:10px;
+  margin-top:16px;
+}
+
+.btn{
+  position:relative;
+
+  display:flex;
+  align-items:center;
+
+  min-height:65px;
+
+  padding:8px 14px;
+
+  color:var(--white);
+  text-decoration:none;
+
+  background:
+    linear-gradient(
+      105deg,
+      #11181c 0%,
+      #090d10 60%,
+      #12181c 100%
+    );
+
+  border:1px solid rgba(205,214,218,.70);
 
   box-shadow:
-    inset 0 1px rgba(255,255,255,.08),
-    0 7px 18px rgba(0,0,0,.35);
+    inset 0 1px rgba(255,255,255,.07),
+    0 7px 18px rgba(0,0,0,.34);
 
-  clip-path: polygon(
+  clip-path:polygon(
     0 0,
-    97% 0,
+    96.5% 0,
     100% 50%,
-    97% 100%,
+    96.5% 100%,
     0 100%,
     4% 50%
   );
 
-  transition: .15s ease;
+  transition:
+    transform .15s ease,
+    border-color .15s ease,
+    box-shadow .15s ease;
 }
 
-.btn::before {
-  content: "";
-  width: 4px;
-  height: 100%;
-  background: #00bce8;
-  box-shadow: 0 0 12px rgba(0,188,232,.65);
-  flex: 0 0 4px;
-}
+.btn::before{
+  content:"";
 
-.btn:hover {
-  transform: translateY(-2px);
-  border-color: #00bce8;
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+
+  width:5px;
+
+  background:var(--cyan);
+
   box-shadow:
-    0 10px 25px rgba(0,0,0,.45),
-    0 0 15px rgba(0,188,232,.12);
+    0 0 12px rgba(0,185,244,.60);
 }
 
-.icon {
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
+/* zone de l'icône */
+.ico{
+  width:46px;
+  height:46px;
 
-  display: grid;
-  place-items: center;
+  margin-left:4px;
+  margin-right:14px;
 
-  color: #00bce8;
-  border: 1px solid #00bce8;
-  background: #081114;
+  flex:0 0 46px;
 
-  font-size: 20px;
-  font-weight: 900;
+  display:grid;
+  place-items:center;
+
+  color:var(--cyan);
+
+  font-size:24px;
+  font-weight:900;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0b1115,
+      #05080a
+    );
+
+  border:1px solid rgba(0,185,244,.75);
+
+  clip-path:polygon(
+    14% 0,
+    100% 0,
+    86% 100%,
+    0 100%
+  );
+
+  text-shadow:0 0 8px rgba(0,185,244,.60);
 }
 
-.text {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: .7px;
+.btn:hover{
+  transform:translateY(-2px);
+
+  border-color:var(--cyan);
+
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.45),
+    0 0 14px rgba(0,185,244,.13);
 }
 
-.number {
-  color: #00bce8;
+.btn:active{
+  transform:translateY(0);
 }
 
-/* ===== BAS DE PAGE ===== */
-/* Noir, sans adresse, téléphone, email ni séparation */
-
-.footer-slogan {
-  margin-top: 18px;
-  width: 100%;
-  min-height: 82px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
-  background: #050708;
-  border: 0;
-
-  color: #f2f4f5;
-
-  font-size: clamp(17px, 5vw, 25px);
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+.label{
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:.7px;
 }
 
-.footer-slogan span {
-  color: #00bce8;
+.number{
+  color:var(--cyan);
+  font-weight:800;
 }
 
-/* ===== PETITS ÉCRANS ===== */
+.btn::after{
+  content:"›";
 
-@media (max-width: 390px) {
+  margin-left:auto;
 
-  body {
-    padding-left: 7px;
-    padding-right: 7px;
+  color:var(--cyan);
+
+  font-size:34px;
+  line-height:1;
+  font-weight:300;
+
+  padding-right:8px;
+}
+
+/* =========================
+   BAS DE PAGE
+   UNIQUEMENT LE SLOGAN
+========================= */
+
+.footer-slogan{
+  width:100%;
+
+  margin-top:18px;
+
+  min-height:82px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  padding:15px 18px;
+
+  background:
+    linear-gradient(
+      110deg,
+      #080b0d,
+      #050709,
+      #080b0d
+    );
+
+  border:1px solid var(--cyan);
+
+  clip-path:polygon(
+    0 18px,
+    18px 0,
+    calc(100% - 18px) 0,
+    100% 18px,
+    100% calc(100% - 18px),
+    calc(100% - 18px) 100%,
+    18px 100%,
+    0 calc(100% - 18px)
+  );
+
+  box-shadow:
+    0 0 15px rgba(0,185,244,.08),
+    inset 0 0 18px rgba(0,0,0,.55);
+
+  font-size:clamp(17px,4.8vw,26px);
+
+  font-weight:700;
+  letter-spacing:1.5px;
+
+  text-transform:uppercase;
+}
+
+.footer-slogan span{
+  color:var(--cyan);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:390px){
+
+  .page{
+    width:96%;
+    padding-top:10px;
   }
 
-  .brand {
-    letter-spacing: 7px;
+  .hero{
+    padding:25px 12px 24px;
   }
 
-  .services {
-    font-size: 12px;
-    letter-spacing: 1px;
+  .logo{
+    font-size:72px;
   }
 
-  .btn {
-    min-height: 58px;
-    padding: 7px 12px;
+  .brand{
+    font-size:18px;
+    letter-spacing:8px;
   }
 
-  .text {
-    font-size: 13px;
+  .services{
+    font-size:12px;
+    letter-spacing:1px;
+  }
+
+  .btn{
+    min-height:59px;
+    padding:7px 10px;
+  }
+
+  .ico{
+    width:41px;
+    height:41px;
+    flex-basis:41px;
+    margin-right:10px;
+  }
+
+  .label{
+    font-size:13px;
+  }
+
+  .btn::after{
+    font-size:28px;
+    padding-right:4px;
+  }
+
+  .footer-slogan{
+    min-height:76px;
+    font-size:18px;
   }
 }
 </style>
@@ -266,11 +484,13 @@ body::before {
 
 <body>
 
-<div class="page">
+<main class="page">
 
-  <!-- ===== LOGO + SLOGAN ===== -->
+  <!-- =========================
+       EN-TÊTE
+  ========================== -->
 
-  <header class="hero">
+  <section class="hero">
 
     <div class="logo">
       KM<span>G</span>
@@ -281,54 +501,53 @@ body::before {
     </div>
 
     <div class="services">
-      TOURNAGE <span>•</span> FRAISAGE <span>•</span> AJUSTAGE
+      Tournage
+      <span class="dot">•</span>
+      Fraisage
+      <span class="dot">•</span>
+      Ajustage
     </div>
 
-    <div class="slogan">
-      VOS PROBLÈMES,<br>
-      <strong>NOTRE PASSION.</strong>
-    </div>
+    <div class="decorative-line"></div>
 
-  </header>
+  </section>
 
 
-  <!-- ===== CONTACT ===== -->
-
-  <div class="section-title">
-    Contact
-  </div>
+  <!-- =========================
+       CONTACT
+  ========================== -->
 
   <section class="buttons">
 
-    <!-- Téléphone 1 -->
+    <!-- Appel 1 -->
     <a
       class="btn"
       href="tel:+213562142017"
     >
-      <div class="icon">☎</div>
+      <span class="ico">☎</span>
 
-      <div class="text">
-        APPELER —
+      <span class="label">
+        Appeler —
         <span class="number">
           0562 14 20 17
         </span>
-      </div>
+      </span>
     </a>
 
 
-    <!-- Téléphone 2 -->
+    <!-- Appel 2 -->
     <a
       class="btn"
       href="tel:+213562142198"
     >
-      <div class="icon">☎</div>
+      <span class="ico">☎</span>
 
-      <div class="text">
-        APPELER —
+      <span class="label">
+        Appeler —
         <span class="number">
           0562 14 21 98
         </span>
-      </div>
+      </span>
     </a>
 
 
@@ -339,14 +558,14 @@ body::before {
       target="_blank"
       rel="noopener"
     >
-      <div class="icon">◉</div>
+      <span class="ico">◉</span>
 
-      <div class="text">
-        WHATSAPP —
+      <span class="label">
+        WhatsApp —
         <span class="number">
           0562 14 20 17
         </span>
-      </div>
+      </span>
     </a>
 
 
@@ -357,14 +576,14 @@ body::before {
       target="_blank"
       rel="noopener"
     >
-      <div class="icon">◉</div>
+      <span class="ico">◉</span>
 
-      <div class="text">
-        WHATSAPP —
+      <span class="label">
+        WhatsApp —
         <span class="number">
           0562 14 21 98
         </span>
-      </div>
+      </span>
     </a>
 
 
@@ -375,11 +594,11 @@ body::before {
       target="_blank"
       rel="noopener"
     >
-      <div class="icon">f</div>
+      <span class="ico">f</span>
 
-      <div class="text">
-        FACEBOOK
-      </div>
+      <span class="label">
+        Facebook
+      </span>
     </a>
 
 
@@ -390,11 +609,11 @@ body::before {
       target="_blank"
       rel="noopener"
     >
-      <div class="icon">◎</div>
+      <span class="ico">◎</span>
 
-      <div class="text">
-        INSTAGRAM
-      </div>
+      <span class="label">
+        Instagram
+      </span>
     </a>
 
 
@@ -405,11 +624,11 @@ body::before {
       target="_blank"
       rel="noopener"
     >
-      <div class="icon">♪</div>
+      <span class="ico">♪</span>
 
-      <div class="text">
-        TIKTOK
-      </div>
+      <span class="label">
+        TikTok
+      </span>
     </a>
 
 
@@ -420,11 +639,11 @@ body::before {
       target="_blank"
       rel="noopener"
     >
-      <div class="icon">◇</div>
+      <span class="ico">◇</span>
 
-      <div class="text">
-        SNAPCHAT
-      </div>
+      <span class="label">
+        Snapchat
+      </span>
     </a>
 
 
@@ -435,14 +654,14 @@ body::before {
       target="_blank"
       rel="noopener"
     >
-      <div class="icon">⌖</div>
+      <span class="ico">⌖</span>
 
-      <div class="text">
-        NOUS TROUVER —
+      <span class="label">
+        Nous trouver —
         <span class="number">
-          GOOGLE MAPS
+          Google Maps
         </span>
-      </div>
+      </span>
     </a>
 
 
@@ -451,34 +670,30 @@ body::before {
       class="btn"
       href="mailto:kmg.usinage@gmail.com"
     >
-      <div class="icon">✉</div>
+      <span class="ico">✉</span>
 
-      <div class="text">
+      <span class="label">
         kmg.usinage@gmail.com
-      </div>
+      </span>
     </a>
 
   </section>
 
 
-  <!-- ===== BAS ===== -->
-  <!--
-    Cette partie reste volontairement noire.
-    Aucun téléphone.
-    Aucun email.
-    Aucune adresse.
-    Aucune séparation.
-    Uniquement le slogan.
-  -->
+  <!-- =========================
+       BAS : NOIR + SLOGAN UNIQUEMENT
+  ========================== -->
 
   <footer class="footer-slogan">
 
     VOS PROBLÈMES,
-    <span>&nbsp;NOTRE PASSION.</span>
+    <span>
+      &nbsp;NOTRE PASSION.
+    </span>
 
   </footer>
 
-</div>
+</main>
 
 </body>
 </html>
