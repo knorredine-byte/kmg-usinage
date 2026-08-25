@@ -1,141 +1,362 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#075f73">
-<title>KMG Usinage</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05080a">
+<title>KMG USINAGE</title>
+
 <style>
-*{box-sizing:border-box}
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:linear-gradient(145deg,#eaf5f3,#f8fbfa);
-color:#12313a;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-.card{
-width:min(94%,430px);
-margin:28px auto;
-padding:28px 20px 24px;
-background:white;
-border-radius:26px;
-box-shadow:0 12px 40px #12313a18;
-text-align:center;
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(0,190,235,.10), transparent 30%),
+    linear-gradient(135deg, #161b1e, #050708 45%, #111619);
+  color: #f2f4f5;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 18px 10px 30px;
 }
-.logo{
-width:82px;
-height:82px;
-margin:auto;
-border-radius:22px;
-background:linear-gradient(145deg,#075f73,#1b8a63);
-display:grid;
-place-items:center;
-color:white;
-font-weight:900;
-font-size:25px;
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: .13;
+  background: repeating-linear-gradient(
+    115deg,
+    transparent 0 4px,
+    rgba(255,255,255,.08) 5px,
+    transparent 6px 10px
+  );
 }
-h1{margin:15px 0 5px;font-size:29px}
-.sub{margin:0 0 22px;color:#527078;font-size:14px}
-.buttons{display:grid;gap:11px}
-.btn{
-display:flex;
-align-items:center;
-gap:13px;
-text-decoration:none;
-color:#12313a;
-background:#f3f8f7;
-padding:14px 16px;
-border-radius:15px;
-font-weight:700;
-text-align:left;
+
+.page {
+  width: min(100%, 560px);
+  margin: auto;
+  position: relative;
 }
-.ico{
-width:35px;
-height:35px;
-border-radius:11px;
-background:white;
-display:grid;
-place-items:center;
-font-size:18px;
-flex:none;
+
+/* ===== EN-TÊTE ===== */
+
+.hero {
+  text-align: center;
+  padding: 34px 15px 28px;
+  border: 1px solid #00bce8;
+  background: linear-gradient(145deg, #101619, #050809 70%, #151c20);
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.55),
+    inset 0 1px rgba(255,255,255,.12);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 88%,
+    96% 100%,
+    4% 100%,
+    0 88%
+  );
 }
-.footer{
-margin-top:20px;
-font-size:12px;
-color:#789097;
+
+.logo {
+  font-size: clamp(70px, 19vw, 105px);
+  line-height: .82;
+  font-weight: 900;
+  letter-spacing: -8px;
+  color: #d7d9da;
+  text-shadow:
+    2px 2px 0 #70767a,
+    5px 6px 14px #000;
+}
+
+.logo span {
+  color: #00bce8;
+}
+
+.brand {
+  margin-top: 14px;
+  font-size: clamp(18px, 5vw, 27px);
+  letter-spacing: 10px;
+  color: #00bce8;
+  font-weight: 700;
+}
+
+.services {
+  margin-top: 30px;
+  font-size: clamp(14px, 4vw, 19px);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.services span {
+  color: #00aeda;
+  padding: 0 5px;
+}
+
+/* ===== SLOGAN ===== */
+
+.slogan {
+  margin-top: 28px;
+  padding: 0 5px 8px;
+  font-size: clamp(21px, 6vw, 31px);
+  line-height: 1.35;
+  letter-spacing: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 1px solid #00bce8;
+  box-shadow: 0 8px 16px -12px #00bce8;
+}
+
+.slogan strong {
+  color: #00bce8;
+}
+
+/* ===== CONTACT ===== */
+
+.section-title {
+  margin: 22px 5px 12px;
+  color: #00bce8;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.buttons {
+  display: grid;
+  gap: 10px;
+}
+
+.btn {
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 16px;
+  color: #f2f4f5;
+  text-decoration: none;
+
+  background:
+    linear-gradient(100deg, #11191d, #070a0c);
+
+  border: 1px solid rgba(215,220,222,.65);
+
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.08),
+    0 7px 18px rgba(0,0,0,.35);
+
+  clip-path: polygon(
+    0 0,
+    97% 0,
+    100% 50%,
+    97% 100%,
+    0 100%,
+    4% 50%
+  );
+
+  transition: .15s ease;
+}
+
+.btn::before {
+  content: "";
+  width: 4px;
+  height: 100%;
+  background: #00bce8;
+  box-shadow: 0 0 12px rgba(0,188,232,.65);
+  flex: 0 0 4px;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  border-color: #00bce8;
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.45),
+    0 0 15px rgba(0,188,232,.12);
+}
+
+.icon {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+
+  display: grid;
+  place-items: center;
+
+  color: #00bce8;
+  border: 1px solid #00bce8;
+  background: #081114;
+
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.text {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .7px;
+}
+
+.number {
+  color: #00bce8;
+}
+
+/* ===== BAS DE PAGE ===== */
+/* Noir, sans adresse, téléphone, email ni séparation */
+
+.footer-slogan {
+  margin-top: 18px;
+  width: 100%;
+  min-height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background: #050708;
+  border: 0;
+
+  color: #f2f4f5;
+
+  font-size: clamp(17px, 5vw, 25px);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.footer-slogan span {
+  color: #00bce8;
+}
+
+/* ===== PETITS ÉCRANS ===== */
+
+@media (max-width: 390px) {
+
+  body {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  .brand {
+    letter-spacing: 7px;
+  }
+
+  .services {
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .btn {
+    min-height: 58px;
+    padding: 7px 12px;
+  }
+
+  .text {
+    font-size: 13px;
+  }
 }
 </style>
 </head>
 
 <body>
-<main class="card">
 
-<div class="logo">KMG</div>
+<div class="page">
 
-<h1>KMG USINAGE</h1>
+  <!-- ===== LOGO + SLOGAN ===== -->
 
-<p class="sub">
-Tournage • Fraisage • Ajustage • Soudure
-</p>
+  <header class="hero">
 
-<div class="buttons">
+    <div class="logo">
+      KM<span>G</span>
+    </div>
 
-<a class="btn" href="tel:+213562142017">
-<span class="ico">📞</span>
-<span>Appeler — 0562 14 20 17</span>
-</a>
+    <div class="brand">
+      USINAGE
+    </div>
 
-<a class="btn" href="tel:+213562142198">
-<span class="ico">📞</span>
-<span>Appeler — 0562 14 21 98</span>
-</a>
+    <div class="services">
+      TOURNAGE <span>•</span> FRAISAGE <span>•</span> AJUSTAGE
+    </div>
 
-<a class="btn" href="https://wa.me/213562142017">
-<span class="ico">🟢</span>
-<span>WhatsApp — 0562 14 20 17</span>
-</a>
+    <div class="slogan">
+      VOS PROBLÈMES,<br>
+      <strong>NOTRE PASSION.</strong>
+    </div>
 
-<a class="btn" href="https://wa.me/213562142198">
-<span class="ico">🟢</span>
-<span>WhatsApp — 0562 14 21 98</span>
-</a>
+  </header>
 
-<a class="btn" href="https://www.facebook.com/share/1BqVrNvMub/">
-<span class="ico">f</span>
-<span>Facebook</span>
-</a>
 
-<a class="btn" href="https://www.instagram.com/kmg.usinage?igsi=MWd6b2tkczIzcGZ3bA==">
-<span class="ico">◎</span>
-<span>Instagram</span>
-</a>
+  <!-- ===== CONTACT ===== -->
 
-<a class="btn" href="https://www.tiktok.com/@kmg.usinage?_r=1&_t=ZS-99A7jktdyOQ">
-<span class="ico">♪</span>
-<span>TikTok</span>
-</a>
+  <div class="section-title">
+    Contact
+  </div>
 
-<a class="btn" href="https://www.snapchat.com/add/kmg.usinage?share_id=tW__u_rgVd4&locale=fr-DZ">
-<span class="ico">👻</span>
-<span>Snapchat</span>
-</a>
+  <section class="buttons">
 
-<a class="btn" href="https://maps.app.goo.gl/UZF2FysgPgSTPQEH8?g_st=afm">
-<span class="ico">📍</span>
-<span>Nous trouver — Google Maps</span>
-</a>
+    <!-- Téléphone 1 -->
+    <a
+      class="btn"
+      href="tel:+213562142017"
+    >
+      <div class="icon">☎</div>
 
-<a class="btn" href="mailto:kmg.usinage@gmail.com">
-<span class="ico">✉️</span>
-<span>kmg.usinage@gmail.com</span>
-</a>
+      <div class="text">
+        APPELER —
+        <span class="number">
+          0562 14 20 17
+        </span>
+      </div>
+    </a>
 
-</div>
 
-<div class="footer">
-KMG Usinage • Algérie
-</div>
+    <!-- Téléphone 2 -->
+    <a
+      class="btn"
+      href="tel:+213562142198"
+    >
+      <div class="icon">☎</div>
 
-</main>
-</body>
-</html>
+      <div class="text">
+        APPELER —
+        <span class="number">
+          0562 14 21 98
+        </span>
+      </div>
+    </a>
+
+
+    <!-- WhatsApp 1 -->
+    <a
+      class="btn"
+      href="https://wa.me/213562142017"
+      target="_blank"
+      rel="noopener"
+    >
+      <div class="icon">◉</div>
+
+      <div class="text">
+        WHATSAPP —
+        <span class="number">
+          0562 14 20 17
+        </span>
+      </div>
+    </a>
+
+
+    <!-- WhatsApp 2 -->
+    <a
+      class="btn"
+      href="https://wa.me/213562142198"
+      target="_blank"
+      rel="noopener"
+    >
+      <div class="icon">◉</div>
+
+      <div class="text">
