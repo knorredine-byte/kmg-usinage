@@ -1,598 +1,567 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#050709">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>KMG USINAGE — Contact</title>
+<meta name="theme-color" content="#05080d">
+
+<title>KMG USINAGE</title>
 
 <style>
-:root{
-  --black:#050709;
-  --panel:#0b0f12;
-  --panel2:#10161a;
-  --cyan:#00b9f4;
-  --cyan2:#008fbf;
-  --white:#f1f4f5;
-  --gray:#aab3b7;
-  --metal:#cfd4d6;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-*{
-  box-sizing:border-box;
+html {
+    scroll-behavior: smooth;
 }
 
-html{
-  scroll-behavior:smooth;
+body {
+    min-height: 100vh;
+    background: #05080d;
+    color: #f4f7f8;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:Arial,Helvetica,sans-serif;
-  color:var(--white);
-
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(0,185,244,.10),
-      transparent 30%
-    ),
-    linear-gradient(
-      135deg,
-      #151b1f 0%,
-      #050709 43%,
-      #11171b 100%
-    );
-
-  overflow-x:hidden;
+/* Légère texture de fond */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.15;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 3px,
+            rgba(255,255,255,0.025) 4px
+        );
 }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.16;
-
-  background:
-    repeating-linear-gradient(
-      115deg,
-      transparent 0 4px,
-      rgba(255,255,255,.05) 5px,
-      transparent 6px 10px
-    );
+/* PAGE */
+.page {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px 15px;
+    position: relative;
+    z-index: 1;
 }
 
-.page{
-  width:min(94%,560px);
-  margin:0 auto;
-  padding:16px 0 22px;
-  position:relative;
+/* CADRE PRINCIPAL */
+.frame {
+    border: 1px solid #00bfff;
+    border-radius: 18px;
+    padding: 35px 25px;
+    background:
+        linear-gradient(
+            145deg,
+            #0a1016,
+            #030609
+        );
+
+    box-shadow:
+        0 0 20px rgba(0,191,255,0.12),
+        inset 0 0 30px rgba(0,0,0,0.8);
 }
 
-.hero{
-  position:relative;
-  overflow:hidden;
-
-  padding:30px 18px 28px;
-
-  text-align:center;
-
-  background:
-    linear-gradient(
-      145deg,
-      #12191d 0%,
-      #070a0c 55%,
-      #151c20 100%
-    );
-
-  border:1px solid rgba(0,185,244,.75);
-
-  box-shadow:
-    0 18px 45px rgba(0,0,0,.55),
-    inset 0 1px rgba(255,255,255,.10);
-
-  clip-path:polygon(
-    0 28px,
-    28px 0,
-    calc(100% - 28px) 0,
-    100% 28px,
-    100% calc(100% - 28px),
-    calc(100% - 28px) 100%,
-    28px 100%,
-    0 calc(100% - 28px)
-  );
+/* EN-TÊTE */
+.header {
+    text-align: center;
 }
 
-.hero::after{
-  content:"";
-  position:absolute;
-  left:10%;
-  right:10%;
-  bottom:11px;
-  height:1px;
+/* LOGO */
+.logo {
+    font-size: clamp(70px, 17vw, 150px);
+    font-weight: 900;
+    letter-spacing: -8px;
+    line-height: 0.85;
+    color: #e5e9eb;
 
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      var(--cyan),
-      transparent
-    );
-
-  box-shadow:0 0 12px var(--cyan);
+    text-shadow:
+        2px 2px 0 #555,
+        0 0 15px rgba(255,255,255,0.15);
 }
 
-.logo{
-  display:inline-block;
-
-  font-size:clamp(72px,21vw,115px);
-  line-height:.82;
-
-  font-weight:900;
-  letter-spacing:-9px;
-
-  color:var(--metal);
-
-  text-shadow:
-    2px 2px 0 #71787c,
-    4px 5px 12px #000;
+.logo span {
+    color: #00bfff;
 }
 
-.logo span{
-  color:var(--cyan);
+/* NOM */
+.brand {
+    margin-top: 25px;
+    font-size: clamp(28px, 6vw, 48px);
+    font-weight: bold;
+    letter-spacing: 7px;
+    color: #f5f7f8;
 
-  text-shadow:
-    0 0 12px rgba(0,185,244,.60);
+    text-shadow:
+        0 0 10px rgba(0,191,255,0.25);
 }
 
-.brand{
-  margin-top:14px;
-
-  font-size:clamp(18px,5vw,28px);
-  letter-spacing:11px;
-
-  color:var(--cyan);
-
-  font-weight:700;
+/* SERVICES */
+.services {
+    margin-top: 20px;
+    font-size: clamp(15px, 3.5vw, 25px);
+    letter-spacing: 2px;
+    color: #dfe5e8;
 }
 
-.services{
-  margin-top:28px;
-
-  font-size:clamp(14px,4vw,20px);
-  letter-spacing:2px;
-
-  color:#e7ebed;
-
-  text-transform:uppercase;
+.services b {
+    color: #00bfff;
+    margin: 0 5px;
 }
 
-.services .dot{
-  color:var(--cyan);
-  padding:0 5px;
+/* LIGNE */
+.separator {
+    width: 75%;
+    height: 2px;
+    margin: 30px auto 35px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #00bfff,
+            transparent
+        );
+
+    box-shadow:
+        0 0 10px rgba(0,191,255,0.7);
 }
 
-.decorative-line{
-  width:72%;
-  height:1px;
+/* GRILLE DES CONTACTS */
+.cards {
+    display: grid;
 
-  margin:22px auto 24px;
+    grid-template-columns:
+        repeat(3, 1fr);
 
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      var(--cyan),
-      transparent
-    );
+    gap: 22px;
 
-  box-shadow:0 0 10px rgba(0,185,244,.65);
+    width: 100%;
 }
 
-.decorative-line::after{
-  content:"";
-  display:block;
+/* CARTE */
+.card {
+    min-height: 220px;
 
-  width:26px;
-  height:8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-  margin:-4px auto 0;
+    text-align: center;
 
-  border-left:1px solid var(--cyan);
-  border-right:1px solid var(--cyan);
+    padding: 25px 15px;
 
-  transform:skewX(-35deg);
+    text-decoration: none;
+    color: white;
 
-  background:#071014;
+    border: 1px solid #00bfff;
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #101820,
+            #05090d
+        );
+
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,0.7),
+        0 0 8px rgba(0,191,255,0.08);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.buttons{
-  display:grid;
-  gap:10px;
-  margin-top:16px;
+/* EFFET AU TOUCHER */
+.card:active {
+    transform: scale(0.97);
 }
 
-.btn{
-  position:relative;
+.card:hover {
+    transform: translateY(-4px);
 
-  display:flex;
-  align-items:center;
+    border-color: #5cddff;
 
-  min-height:65px;
-
-  padding:8px 14px;
-
-  color:var(--white);
-  text-decoration:none;
-
-  background:
-    linear-gradient(
-      105deg,
-      #11181c 0%,
-      #090d10 60%,
-      #12181c 100%
-    );
-
-  border:1px solid rgba(205,214,218,.70);
-
-  box-shadow:
-    inset 0 1px rgba(255,255,255,.07),
-    0 7px 18px rgba(0,0,0,.34);
-
-  clip-path:polygon(
-    0 0,
-    96.5% 0,
-    100% 50%,
-    96.5% 100%,
-    0 100%,
-    4% 50%
-  );
-
-  transition:
-    transform .15s ease,
-    border-color .15s ease,
-    box-shadow .15s ease;
+    box-shadow:
+        0 0 18px rgba(0,191,255,0.35),
+        inset 0 0 20px rgba(0,0,0,0.7);
 }
 
-.btn::before{
-  content:"";
+/* ICÔNE */
+.icon {
+    width: 90px;
+    height: 90px;
 
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  width:5px;
+    margin-bottom: 18px;
 
-  background:var(--cyan);
+    border: 1px solid #00bfff;
+    border-radius: 12px;
 
-  box-shadow:
-    0 0 12px rgba(0,185,244,.60);
+    background: #05090d;
+
+    color: #00bfff;
+
+    font-size: 48px;
+    font-weight: bold;
+
+    box-shadow:
+        0 0 12px rgba(0,191,255,0.25);
 }
 
-.ico{
-  width:46px;
-  height:46px;
+/* WHATSAPP */
+.whatsapp .icon {
+    color: #25d366;
+    border-color: #25d366;
 
-  margin-left:4px;
-  margin-right:14px;
+    text-shadow:
+        0 0 10px rgba(37,211,102,0.7);
 
-  flex:0 0 46px;
-
-  display:grid;
-  place-items:center;
-
-  color:var(--cyan);
-
-  font-size:24px;
-  font-weight:900;
-
-  background:
-    linear-gradient(
-      145deg,
-      #0b1115,
-      #05080a
-    );
-
-  border:1px solid rgba(0,185,244,.75);
-
-  clip-path:polygon(
-    14% 0,
-    100% 0,
-    86% 100%,
-    0 100%
-  );
-
-  text-shadow:
-    0 0 8px rgba(0,185,244,.60);
+    box-shadow:
+        0 0 15px rgba(37,211,102,0.18);
 }
 
-.btn:hover{
-  transform:translateY(-2px);
-
-  border-color:var(--cyan);
-
-  box-shadow:
-    0 10px 24px rgba(0,0,0,.45),
-    0 0 14px rgba(0,185,244,.13);
+/* FACEBOOK */
+.facebook .icon {
+    color: #3b9cff;
 }
 
-.btn:active{
-  transform:translateY(0);
+/* MAPS */
+.maps .icon {
+    color: #00bfff;
 }
 
-.label{
-  font-size:15px;
-  font-weight:700;
-  letter-spacing:.7px;
+/* EMAIL */
+.email .icon {
+    color: #00bfff;
 }
 
-.number{
-  color:var(--cyan);
-  font-weight:800;
+/* NOM DE L'APPLICATION */
+.card-title {
+    font-size: 23px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    color: #f4f7f8;
 }
 
-.btn::after{
-  content:"›";
+/* NUMÉRO / SOUS-TEXTE */
+.card-text {
+    margin-top: 10px;
 
-  margin-left:auto;
+    font-size: 18px;
+    letter-spacing: 1px;
 
-  color:var(--cyan);
-
-  font-size:34px;
-  line-height:1;
-  font-weight:300;
-
-  padding-right:8px;
+    color: #00bfff;
 }
 
-.footer-slogan{
-  width:100%;
+/* SLOGAN */
+.slogan {
+    margin-top: 35px;
 
-  margin-top:18px;
+    padding: 25px 15px;
 
-  min-height:82px;
+    text-align: center;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+    border: 1px solid #00bfff;
+    border-radius: 8px;
 
-  text-align:center;
+    background:
+        linear-gradient(
+            145deg,
+            #101820,
+            #05090d
+        );
 
-  padding:15px 18px;
-
-  background:
-    linear-gradient(
-      110deg,
-      #080b0d,
-      #050709,
-      #080b0d
-    );
-
-  border:1px solid var(--cyan);
-
-  clip-path:polygon(
-    0 18px,
-    18px 0,
-    calc(100% - 18px) 0,
-    100% 18px,
-    100% calc(100% - 18px),
-    calc(100% - 18px) 100%,
-    18px 100%,
-    0 calc(100% - 18px)
-  );
-
-  box-shadow:
-    0 0 15px rgba(0,185,244,.08),
-    inset 0 0 18px rgba(0,0,0,.55);
-
-  font-size:clamp(17px,4.8vw,26px);
-
-  font-weight:700;
-  letter-spacing:1.5px;
-
-  text-transform:uppercase;
+    box-shadow:
+        0 0 15px rgba(0,191,255,0.12);
 }
 
-.footer-slogan span{
-  color:var(--cyan);
+.slogan {
+    font-size: clamp(20px, 4vw, 34px);
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
-@media(max-width:390px){
+.slogan span {
+    color: #00bfff;
 
-  .page{
-    width:96%;
-    padding-top:10px;
-  }
-
-  .hero{
-    padding:25px 12px 24px;
-  }
-
-  .logo{
-    font-size:72px;
-  }
-
-  .brand{
-    font-size:18px;
-    letter-spacing:8px;
-  }
-
-  .services{
-    font-size:12px;
-    letter-spacing:1px;
-  }
-
-  .btn{
-    min-height:59px;
-    padding:7px 10px;
-  }
-
-  .ico{
-    width:41px;
-    height:41px;
-    flex-basis:41px;
-    margin-right:10px;
-  }
-
-  .label{
-    font-size:13px;
-  }
-
-  .btn::after{
-    font-size:28px;
-    padding-right:4px;
-  }
-
-  .footer-slogan{
-    min-height:76px;
-    font-size:18px;
-  }
+    text-shadow:
+        0 0 8px rgba(0,191,255,0.5);
 }
+
+/* TÉLÉPHONE */
+@media (max-width: 700px) {
+
+    .page {
+        padding: 10px;
+    }
+
+    .frame {
+        padding: 25px 12px;
+    }
+
+    .brand {
+        letter-spacing: 4px;
+    }
+
+    .services {
+        letter-spacing: 1px;
+    }
+
+    .separator {
+        width: 90%;
+    }
+
+    .cards {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 14px;
+    }
+
+    .card {
+        min-height: 190px;
+        padding: 20px 8px;
+    }
+
+    .icon {
+        width: 70px;
+        height: 70px;
+
+        font-size: 38px;
+        margin-bottom: 14px;
+    }
+
+    .card-title {
+        font-size: 18px;
+    }
+
+    .card-text {
+        font-size: 15px;
+    }
+}
+
+/* PETIT TÉLÉPHONE */
+@media (max-width: 420px) {
+
+    .frame {
+        padding: 22px 10px;
+    }
+
+    .cards {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+    }
+
+    .card {
+        min-height: 170px;
+    }
+
+    .icon {
+        width: 60px;
+        height: 60px;
+        font-size: 32px;
+    }
+
+    .card-title {
+        font-size: 16px;
+    }
+
+    .card-text {
+        font-size: 13px;
+    }
+
+    .slogan {
+        font-size: 18px;
+    }
+}
+
 </style>
 </head>
 
+
 <body>
 
-<main class="page">
+<div class="page">
 
-  <section class="hero">
+<div class="frame">
+
+<!-- EN-TÊTE -->
+
+<section class="header">
 
     <div class="logo">
-      KM<span>G</span>
+        KM<span>G</span>
     </div>
 
     <div class="brand">
-      USINAGE
+        USINAGE
     </div>
 
     <div class="services">
-      Tournage
-      <span class="dot">•</span>
-      Fraisage
-      <span class="dot">•</span>
-      Ajustage
+        Tournage <b>•</b>
+        Fraisage <b>•</b>
+        Ajustage <b>•</b>
+        Soudure
     </div>
 
-    <div class="decorative-line"></div>
-
-  </section>
+</section>
 
 
-  <section class="buttons">
+<div class="separator"></div>
 
-    <!-- WhatsApp 1 -->
+
+<!-- CONTACTS -->
+
+<section class="cards">
+
+
+    <!-- WHATSAPP 1 -->
+
     <a
-      class="btn"
-      href="https://wa.me/213562142017"
-      target="_blank"
-      rel="noopener"
+        class="card whatsapp"
+        href="https://wa.me/213562142017"
+        target="_blank"
     >
-      <span class="ico">◉</span>
 
-      <span class="label">
-        WhatsApp —
-        <span class="number">
-          0562 14 20 17
-        </span>
-      </span>
+        <div class="icon">
+            ☎
+        </div>
+
+        <div class="card-title">
+            WhatsApp
+        </div>
+
+        <div class="card-text">
+            0562 14 20 17
+        </div>
+
     </a>
 
 
-    <!-- WhatsApp 2 -->
-    <a
-      class="btn"
-      href="https://wa.me/213562142198"
-      target="_blank"
-      rel="noopener"
-    >
-      <span class="ico">◉</span>
+    <!-- WHATSAPP 2 -->
 
-      <span class="label">
-        WhatsApp —
-        <span class="number">
-          0562 14 21 98
-        </span>
-      </span>
+    <a
+        class="card whatsapp"
+        href="https://wa.me/213562142198"
+        target="_blank"
+    >
+
+        <div class="icon">
+            ☎
+        </div>
+
+        <div class="card-title">
+            WhatsApp
+        </div>
+
+        <div class="card-text">
+            0562 14 21 98
+        </div>
+
     </a>
 
 
-    <!-- Facebook -->
-    <a
-      class="btn"
-      href="https://www.facebook.com/share/1BqVrNvMub/"
-      target="_blank"
-      rel="noopener"
-    >
-      <span class="ico">f</span>
+    <!-- FACEBOOK -->
 
-      <span class="label">
-        Facebook
-      </span>
+    <a
+        class="card facebook"
+        href="#"
+    >
+
+        <div class="icon">
+            f
+        </div>
+
+        <div class="card-title">
+            Facebook
+        </div>
+
+        <div class="card-text">
+            Notre page
+        </div>
+
     </a>
 
 
-    <!-- Instagram -->
-    <a
-      class="btn"
-      href="https://www.instagram.com/kmg.usinage?igsi=MWd6b2tkczIzcGZ3bA=="
-      target="_blank"
-      rel="noopener"
-    >
-      <span class="ico">◎</span>
+    <!-- GOOGLE MAPS -->
 
-      <span class="label">
-        Instagram
-      </span>
+    <a
+        class="card maps"
+        href="#"
+    >
+
+        <div class="icon">
+            ●
+        </div>
+
+        <div class="card-title">
+            Google Maps
+        </div>
+
+        <div class="card-text">
+            Nous trouver
+        </div>
+
     </a>
 
 
-    <!-- Google Maps -->
-    <a
-      class="btn"
-      href="https://maps.app.goo.gl/UZF2FysgPgSTPQEH8?g_st=afm"
-      target="_blank"
-      rel="noopener"
-    >
-      <span class="ico">⌖</span>
+    <!-- EMAIL -->
 
-      <span class="label">
-        Nous trouver —
-        <span class="number">
-          Google Maps
-        </span>
-      </span>
+    <a
+        class="card email"
+        href="mailto:kmg.usinage@gmail.com"
+    >
+
+        <div class="icon">
+            @
+        </div>
+
+        <div class="card-title">
+            E-mail
+        </div>
+
+        <div class="card-text">
+            kmg.usinage@gmail.com
+        </div>
+
     </a>
 
 
-    <!-- Email -->
-    <a
-      class="btn"
-      href="mailto:kmg.usinage@gmail.com"
-    >
-      <span class="ico">✉</span>
-
-      <span class="label">
-        kmg.usinage@gmail.com
-      </span>
-    </a>
-
-  </section>
+</section>
 
 
-  <footer class="footer-slogan">
+<!-- SLOGAN -->
+
+<div class="slogan">
 
     VOS PROBLÈMES,
-    <span>
-      &nbsp;NOTRE PASSION.
-    </span>
+    <span>NOTRE PASSION.</span>
 
-  </footer>
+</div>
 
-</main>
+
+</div>
+
+</div>
 
 </body>
 </html>
