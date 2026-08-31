@@ -34,13 +34,21 @@ body{
   color:var(--white);
 
   background:
-    radial-gradient(circle at 50% 0%,rgba(0,185,244,.10),transparent 30%),
-    linear-gradient(135deg,#151b1f 0%,#050709 43%,#11171b 100%);
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(0,185,244,.10),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #151b1f 0%,
+      #050709 43%,
+      #11171b 100%
+    );
 
   overflow-x:hidden;
 }
 
-/* Texture métal très légère */
 body::before{
   content:"";
   position:fixed;
@@ -57,20 +65,12 @@ body::before{
     );
 }
 
-/* =========================
-   CONTENEUR
-========================= */
-
 .page{
   width:min(94%,560px);
   margin:0 auto;
   padding:16px 0 22px;
   position:relative;
 }
-
-/* =========================
-   GRAND CADRE DU HAUT
-========================= */
 
 .hero{
   position:relative;
@@ -106,7 +106,6 @@ body::before{
   );
 }
 
-/* Petite ligne lumineuse */
 .hero::after{
   content:"";
   position:absolute;
@@ -126,10 +125,6 @@ body::before{
   box-shadow:0 0 12px var(--cyan);
 }
 
-/* =========================
-   LOGO
-========================= */
-
 .logo{
   display:inline-block;
 
@@ -148,13 +143,10 @@ body::before{
 
 .logo span{
   color:var(--cyan);
+
   text-shadow:
     0 0 12px rgba(0,185,244,.60);
 }
-
-/* =========================
-   USINAGE
-========================= */
 
 .brand{
   margin-top:14px;
@@ -166,10 +158,6 @@ body::before{
 
   font-weight:700;
 }
-
-/* =========================
-   SERVICES
-========================= */
 
 .services{
   margin-top:28px;
@@ -187,7 +175,6 @@ body::before{
   padding:0 5px;
 }
 
-/* ligne décorative */
 .decorative-line{
   width:72%;
   height:1px;
@@ -205,7 +192,6 @@ body::before{
   box-shadow:0 0 10px rgba(0,185,244,.65);
 }
 
-/* petit détail central */
 .decorative-line::after{
   content:"";
   display:block;
@@ -222,10 +208,6 @@ body::before{
 
   background:#071014;
 }
-
-/* =========================
-   BOUTONS
-========================= */
 
 .buttons{
   display:grid;
@@ -291,7 +273,6 @@ body::before{
     0 0 12px rgba(0,185,244,.60);
 }
 
-/* zone de l'icône */
 .ico{
   width:46px;
   height:46px;
@@ -325,7 +306,8 @@ body::before{
     0 100%
   );
 
-  text-shadow:0 0 8px rgba(0,185,244,.60);
+  text-shadow:
+    0 0 8px rgba(0,185,244,.60);
 }
 
 .btn:hover{
@@ -366,11 +348,6 @@ body::before{
 
   padding-right:8px;
 }
-
-/* =========================
-   BAS DE PAGE
-   UNIQUEMENT LE SLOGAN
-========================= */
 
 .footer-slogan{
   width:100%;
@@ -423,10 +400,6 @@ body::before{
 .footer-slogan span{
   color:var(--cyan);
 }
-
-/* =========================
-   MOBILE
-========================= */
 
 @media(max-width:390px){
 
@@ -486,10 +459,6 @@ body::before{
 
 <main class="page">
 
-  <!-- =========================
-       EN-TÊTE
-  ========================== -->
-
   <section class="hero">
 
     <div class="logo">
@@ -513,43 +482,7 @@ body::before{
   </section>
 
 
-  <!-- =========================
-       CONTACT
-  ========================== -->
-
   <section class="buttons">
-
-    <!-- Appel 1 -->
-    <a
-      class="btn"
-      href="tel:+213562142017"
-    >
-      <span class="ico">☎</span>
-
-      <span class="label">
-        Appeler —
-        <span class="number">
-          0562 14 20 17
-        </span>
-      </span>
-    </a>
-
-
-    <!-- Appel 2 -->
-    <a
-      class="btn"
-      href="tel:+213562142198"
-    >
-      <span class="ico">☎</span>
-
-      <span class="label">
-        Appeler —
-        <span class="number">
-          0562 14 21 98
-        </span>
-      </span>
-    </a>
-
 
     <!-- WhatsApp 1 -->
     <a
@@ -617,36 +550,6 @@ body::before{
     </a>
 
 
-    <!-- TikTok -->
-    <a
-      class="btn"
-      href="https://www.tiktok.com/@kmg.usinage?_r=1&_t=ZS-99A7jktdyOQ"
-      target="_blank"
-      rel="noopener"
-    >
-      <span class="ico">♪</span>
-
-      <span class="label">
-        TikTok
-      </span>
-    </a>
-
-
-    <!-- Snapchat -->
-    <a
-      class="btn"
-      href="https://www.snapchat.com/add/kmg.usinage?share_id=tW__u_rgVd4&locale=fr-DZ"
-      target="_blank"
-      rel="noopener"
-    >
-      <span class="ico">◇</span>
-
-      <span class="label">
-        Snapchat
-      </span>
-    </a>
-
-
     <!-- Google Maps -->
     <a
       class="btn"
@@ -679,10 +582,6 @@ body::before{
 
   </section>
 
-
-  <!-- =========================
-       BAS : NOIR + SLOGAN UNIQUEMENT
-  ========================== -->
 
   <footer class="footer-slogan">
 
