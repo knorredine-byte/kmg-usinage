@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
+    /* ===== RESET & BASE ===== */
     * {
       margin: 0;
       padding: 0;
@@ -21,290 +22,77 @@
       --bg-deep: #080c14;
       --bg-panel: #0e1622;
       --cyan: #00e5ff;
-      --cyan-dim: rgba(0, 229, 255, 0.15);
-      --cyan-glow: 0 0 30px rgba(0, 229, 255, 0.3);
       --text-primary: #f0f6fc;
       --text-muted: #8b9bb5;
       --wa: #25d366;
       --border-glow: rgba(0, 229, 255, 0.25);
     }
 
-    html {
-      scroll-behavior: smooth;
+    html, body {
       height: 100%;
+      overflow: hidden;
     }
 
     body {
-      min-height: 100vh;
-      min-height: 100dvh;
       background: var(--bg-deep);
       background-image:
         radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.03) 0%, transparent 60%),
-        radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.02) 0%, transparent 50%),
-        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.01) 0px, rgba(255, 255, 255, 0.01) 2px, transparent 2px, transparent 8px);
+        radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.02) 0%, transparent 50%);
       color: var(--text-primary);
       font-family: 'Space Grotesk', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
-      overflow-x: hidden;
+      padding: 10px;
     }
 
     .container {
       width: 100%;
-      max-width: 1200px;
-      position: relative;
-      z-index: 1;
+      max-width: 1100px;
+      height: 100%;
+      max-height: 98dvh;
+      display: flex;
+      align-items: center;
     }
 
+    /* ===== CARTE PRINCIPALE ===== */
     .card {
+      width: 100%;
       background: var(--bg-panel);
-      border-radius: 40px 40px 20px 20px;
-      padding: 50px 40px 40px;
+      border-radius: 32px;
+      padding: 24px 20px 18px;
       box-shadow:
         0 20px 60px rgba(0, 0, 0, 0.8),
         0 0 0 1px var(--border-glow),
         inset 0 1px 0 rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(4px);
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       transition: box-shadow 0.4s ease;
     }
 
+    /* Animation du contour */
     .card::before {
       content: '';
       position: absolute;
       inset: 0;
       border-radius: inherit;
-      padding: 1px;
+      padding: 1.5px;
       background: conic-gradient(from 0deg at 50% 50%, transparent 0%, var(--cyan) 20%, transparent 40%, var(--cyan) 60%, transparent 80%, var(--cyan) 100%);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
       opacity: 0.5;
-      animation: rotate-border 12s linear infinite;
+      animation: rotate-border 10s linear infinite;
     }
-
     @keyframes rotate-border {
-      to {
-        transform: rotate(360deg);
-      }
+      to { transform: rotate(360deg); }
     }
 
-    .header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 40px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .brand-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .logo {
-      font-size: clamp(48px, 10vw, 96px);
-      font-weight: 700;
-      line-height: 0.9;
-      letter-spacing: -2px;
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-    }
-
-    .logo .metal {
-      background: linear-gradient(135deg, #e0e8f0, #7a8a9a 40%, #c0cedb 65%, #5a6a7a);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    }
-
-    .logo .neon {
-      color: var(--cyan);
-      text-shadow: 0 0 30px var(--cyan), 0 0 60px rgba(0, 229, 255, 0.4);
-      animation: pulse-neon 3s ease-in-out infinite alternate;
-    }
-
-    @keyframes pulse-neon {
-      0% {
-        text-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0, 229, 255, 0.2);
-      }
-      100% {
-        text-shadow: 0 0 40px var(--cyan), 0 0 80px rgba(0, 229, 255, 0.5), 0 0 120px rgba(0, 229, 255, 0.2);
-      }
-    }
-
-    .sous-titre {
-      font-size: clamp(14px, 2.5vw, 24px);
-      font-weight: 600;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-top: 4px;
-      opacity: 0.7;
-    }
-
-    .services-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 18px;
-      font-size: clamp(12px, 1.4vw, 16px);
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--text-muted);
-      background: rgba(0, 229, 255, 0.04);
-      padding: 12px 24px;
-      border-radius: 60px;
-      border: 1px solid rgba(0, 229, 255, 0.08);
-      backdrop-filter: blur(2px);
-    }
-
-    .services-tags span {
-      position: relative;
-    }
-    .services-tags span:not(:last-child)::after {
-      content: '•';
-      margin-left: 18px;
-      color: var(--cyan);
-      opacity: 0.4;
-    }
-
-    .grid-contacts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 18px;
-      margin: 40px 0 30px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .contact-card {
-      background: rgba(255, 255, 255, 0.02);
-      border-radius: 28px;
-      padding: 20px 16px 16px;
-      text-decoration: none;
-      color: var(--text-primary);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(2px);
-    }
-
-    .contact-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0, 229, 255, 0.04), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .contact-card:hover {
-      transform: translateY(-6px) scale(1.02);
-      border-color: var(--cyan);
-      box-shadow: var(--cyan-glow), inset 0 0 20px rgba(0, 229, 255, 0.05);
-    }
-
-    .contact-card:hover::before {
-      opacity: 1;
-    }
-
-    .contact-card .icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 229, 255, 0.06);
-      border: 1px solid rgba(0, 229, 255, 0.15);
-      margin-bottom: 12px;
-      transition: 0.3s;
-    }
-
-    .contact-card .icon svg {
-      width: 28px;
-      height: 28px;
-      fill: var(--cyan);
-      transition: 0.3s;
-    }
-
-    .contact-card.whatsapp .icon {
-      border-color: var(--wa);
-      background: rgba(37, 211, 102, 0.06);
-    }
-    .contact-card.whatsapp .icon svg {
-      fill: var(--wa);
-    }
-
-    .contact-card .label {
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-      color: var(--text-primary);
-    }
-
-    .contact-card .value {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 4px;
-      word-break: break-word;
-    }
-
-    .contact-card .glow-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 10px var(--cyan);
-      margin-top: 10px;
-      opacity: 0.6;
-      transition: 0.4s;
-    }
-
-    .contact-card.whatsapp .glow-dot {
-      background: var(--wa);
-      box-shadow: 0 0 10px var(--wa);
-    }
-
-    .contact-card:hover .glow-dot {
-      opacity: 1;
-      transform: scale(1.3);
-    }
-
-    .slogan-block {
-      margin-top: 30px;
-      padding: 24px 20px;
-      text-align: center;
-      font-size: clamp(18px, 3.2vw, 32px);
-      font-weight: 600;
-      letter-spacing: 2px;
-      border-top: 1px solid rgba(0, 229, 255, 0.08);
-      border-bottom: 1px solid rgba(0, 229, 255, 0.08);
-      color: var(--text-muted);
-      position: relative;
-      z-index: 2;
-    }
-
-    .slogan-block strong {
-      color: var(--cyan);
-      text-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
-      font-weight: 700;
-    }
-
+    /* ===== PARTICULES ===== */
     .bg-particles {
       position: absolute;
       inset: 0;
@@ -313,7 +101,6 @@
       border-radius: inherit;
       z-index: 0;
     }
-
     .particle {
       position: absolute;
       width: 2px;
@@ -322,100 +109,272 @@
       border-radius: 50%;
       box-shadow: 0 0 6px var(--cyan);
       opacity: 0;
-      animation: float-particle 12s infinite alternate ease-in-out;
+      animation: float-particle 10s infinite alternate ease-in-out;
     }
-
-    .particle:nth-child(1) {
-      left: 10%;
-      top: 20%;
-      animation-delay: 0s;
-      animation-duration: 14s;
-    }
-    .particle:nth-child(2) {
-      left: 85%;
-      top: 40%;
-      animation-delay: 2s;
-      animation-duration: 18s;
-    }
-    .particle:nth-child(3) {
-      left: 30%;
-      top: 70%;
-      animation-delay: 4s;
-      animation-duration: 16s;
-    }
-    .particle:nth-child(4) {
-      left: 70%;
-      top: 10%;
-      animation-delay: 1s;
-      animation-duration: 20s;
-    }
-    .particle:nth-child(5) {
-      left: 50%;
-      top: 85%;
-      animation-delay: 3s;
-      animation-duration: 15s;
-    }
-
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 85%; top: 40%; animation-delay: 2s; }
+    .particle:nth-child(3) { left: 30%; top: 70%; animation-delay: 4s; }
+    .particle:nth-child(4) { left: 70%; top: 10%; animation-delay: 1s; }
+    .particle:nth-child(5) { left: 50%; top: 85%; animation-delay: 3s; }
     @keyframes float-particle {
-      0% {
-        opacity: 0;
-        transform: translate(0, 0) scale(0.5);
-      }
-      30% {
-        opacity: 0.8;
-      }
-      70% {
-        opacity: 0.6;
-      }
-      100% {
-        opacity: 0;
-        transform: translate(40px, -40px) scale(1.5);
-      }
+      0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+      30% { opacity: 0.8; }
+      70% { opacity: 0.6; }
+      100% { opacity: 0; transform: translate(30px, -30px) scale(1.5); }
     }
 
+    /* ===== EN‑TÊTE ===== */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      flex-shrink: 0;
+      margin-bottom: 10px;
+    }
+
+    .brand-group {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .logo {
+      font-size: clamp(32px, 7vw, 72px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+    .logo .metal {
+      background: linear-gradient(135deg, #e0e8f0, #7a8a9a 40%, #c0cedb 65%, #5a6a7a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .logo .neon {
+      color: var(--cyan);
+      text-shadow: 0 0 20px var(--cyan), 0 0 60px rgba(0, 229, 255, 0.3);
+      animation: pulse-neon 3s ease-in-out infinite alternate;
+    }
+    @keyframes pulse-neon {
+      0% { text-shadow: 0 0 20px var(--cyan), 0 0 40px rgba(0, 229, 255, 0.2); }
+      100% { text-shadow: 0 0 40px var(--cyan), 0 0 80px rgba(0, 229, 255, 0.5); }
+    }
+
+    .sous-titre {
+      font-size: clamp(10px, 1.8vw, 18px);
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.6;
+      margin-top: -2px;
+    }
+
+    .services-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      font-size: clamp(9px, 1.2vw, 13px);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      background: rgba(0, 229, 255, 0.04);
+      padding: 6px 14px;
+      border-radius: 40px;
+      border: 1px solid rgba(0, 229, 255, 0.08);
+    }
+    .services-tags span:not(:last-child)::after {
+      content: '•';
+      margin-left: 12px;
+      color: var(--cyan);
+      opacity: 0.3;
+    }
+
+    /* ===== GRILLE CONTACTS ===== */
+    .grid-contacts {
+      display: grid;
+      gap: 10px;
+      flex: 1 1 auto;
+      min-height: 0;
+      position: relative;
+      z-index: 2;
+      margin: 6px 0 8px;
+    }
+
+    .contact-card {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 20px;
+      padding: 12px 4px;
+      text-decoration: none;
+      color: var(--text-primary);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(2px);
+    }
+    .contact-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.05), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .contact-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--cyan);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);
+    }
+    .contact-card:hover::before { opacity: 1; }
+
+    .contact-card .icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 229, 255, 0.06);
+      border: 1px solid rgba(0, 229, 255, 0.12);
+      margin-bottom: 4px;
+      flex-shrink: 0;
+    }
+    .contact-card .icon svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--cyan);
+    }
+
+    .contact-card.whatsapp .icon {
+      border-color: var(--wa);
+      background: rgba(37, 211, 102, 0.06);
+    }
+    .contact-card.whatsapp .icon svg { fill: var(--wa); }
+
+    .contact-card .label {
+      font-weight: 600;
+      font-size: clamp(10px, 1.2vw, 13px);
+      letter-spacing: 0.3px;
+    }
+    .contact-card .value {
+      font-size: clamp(8px, 1vw, 11px);
+      color: var(--text-muted);
+      margin-top: 1px;
+      word-break: break-word;
+      line-height: 1.2;
+    }
+
+    .contact-card .glow-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      margin-top: 4px;
+      opacity: 0.5;
+      transition: 0.3s;
+      flex-shrink: 0;
+    }
+    .contact-card.whatsapp .glow-dot {
+      background: var(--wa);
+      box-shadow: 0 0 8px var(--wa);
+    }
+    .contact-card:hover .glow-dot { opacity: 1; transform: scale(1.3); }
+
+    /* ===== SLOGAN ===== */
+    .slogan-block {
+      padding: 8px 10px;
+      text-align: center;
+      font-size: clamp(13px, 2.2vw, 22px);
+      font-weight: 600;
+      letter-spacing: 1px;
+      border-top: 1px solid rgba(0, 229, 255, 0.06);
+      color: var(--text-muted);
+      position: relative;
+      z-index: 2;
+      flex-shrink: 0;
+    }
+    .slogan-block strong {
+      color: var(--cyan);
+      text-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+      font-weight: 700;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    /* Mobile : 2 colonnes, 3 lignes */
     @media (max-width: 700px) {
-      body {
-        padding: 12px;
-      }
-      .card {
-        padding: 28px 18px 24px;
-        border-radius: 28px;
-      }
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 18px;
-      }
-      .services-tags {
-        padding: 10px 16px;
-        font-size: 11px;
-        gap: 6px 12px;
-        align-self: flex-start;
-      }
-      .services-tags span:not(:last-child)::after {
-        margin-left: 12px;
-      }
+      body { padding: 6px; }
+      .card { padding: 14px 12px 12px; border-radius: 24px; }
+      .header { margin-bottom: 6px; gap: 6px; }
+      .logo { font-size: clamp(28px, 7vw, 42px); }
+      .services-tags { padding: 4px 10px; gap: 2px 8px; font-size: 8px; }
+      .services-tags span:not(:last-child)::after { margin-left: 8px; }
+
       .grid-contacts {
         grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        grid-template-rows: 1fr 1fr 1fr;
+        gap: 6px;
+        margin: 4px 0 4px;
       }
-      .contact-card {
-        padding: 16px 10px;
+
+      /* Le 5e élément (email) prend toute la largeur de la 3e ligne */
+      .contact-card:nth-child(5) {
+        grid-column: 1 / 3;
       }
-      .contact-card .icon {
-        width: 48px;
-        height: 48px;
-      }
-      .contact-card .icon svg {
-        width: 24px;
-        height: 24px;
+
+      .contact-card { padding: 8px 2px; border-radius: 14px; }
+      .contact-card .icon { width: 30px; height: 30px; margin-bottom: 2px; }
+      .contact-card .icon svg { width: 16px; height: 16px; }
+      .contact-card .label { font-size: 9px; }
+      .contact-card .value { font-size: 7px; }
+      .contact-card .glow-dot { width: 3px; height: 3px; margin-top: 2px; }
+
+      .slogan-block {
+        padding: 4px 6px;
+        font-size: clamp(11px, 2.5vw, 14px);
+        margin-top: 2px;
       }
     }
 
-    @media (max-width: 440px) {
+    /* Très petits écrans (< 380px) */
+    @media (max-width: 380px) {
+      .card { padding: 10px 8px 8px; }
+      .logo { font-size: 24px; }
+      .services-tags { font-size: 7px; padding: 2px 6px; }
+      .contact-card .icon { width: 24px; height: 24px; }
+      .contact-card .icon svg { width: 14px; height: 14px; }
+      .contact-card .label { font-size: 8px; }
+      .contact-card .value { font-size: 6px; }
+      .slogan-block { font-size: 10px; }
+    }
+
+    /* Desktop / tablette : 5 colonnes sur 1 ligne */
+    @media (min-width: 701px) {
       .grid-contacts {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: 1fr;
+        gap: 14px;
       }
+      .contact-card:nth-child(5) {
+        grid-column: auto;
+      }
+      .contact-card { padding: 16px 8px; }
+      .contact-card .icon { width: 48px; height: 48px; }
+      .contact-card .icon svg { width: 26px; height: 26px; }
+      .card { padding: 30px 30px 20px; }
+      .slogan-block { padding: 12px 0; }
     }
   </style>
 </head>
@@ -433,12 +392,13 @@
         <div class="particle"></div>
       </div>
 
+      <!-- EN‑TÊTE -->
       <header class="header">
         <div class="brand-group">
           <div class="logo">
             <span class="metal">KM</span><span class="neon">G</span>
           </div>
-          <div class="sous-titre">Usinage · 4.0</div>
+          <div class="sous-titre">Usinage 4.0</div>
         </div>
         <div class="services-tags">
           <span>Tournage</span>
@@ -448,48 +408,39 @@
         </div>
       </header>
 
+      <!-- CONTACTS -->
       <div class="grid-contacts">
 
         <a class="contact-card whatsapp" href="https://wa.me/213562142017" target="_blank">
-          <div class="icon">
-            <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.28-1.38a9.9 9.9 0 0 0 4.71 1.2h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2m0 1.8a8.1 8.1 0 0 1 5.75 2.38 8.07 8.07 0 0 1 2.38 5.74c0 4.48-3.65 8.12-8.14 8.12a8.1 8.1 0 0 1-4.13-1.13l-.3-.17-3.13.82.84-3.05-.19-.32a8.06 8.06 0 0 1-1.25-4.33c0-4.48 3.65-8.06 8.17-8.06M8.53 6.7c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.74 2.77 4.29 3.77 2.12.84 2.55.67 3.01.63.46-.04 1.48-.6 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.11-.23-.17-.48-.29-.25-.13-1.48-.73-1.71-.81-.23-.08-.4-.13-.57.13-.17.25-.65.81-.8.98-.15.17-.29.19-.54.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.57-1.37-.78-1.87-.21-.5-.42-.42-.57-.42h-.49"/></svg>
-          </div>
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.28-1.38a9.9 9.9 0 0 0 4.71 1.2h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2m0 1.8a8.1 8.1 0 0 1 5.75 2.38 8.07 8.07 0 0 1 2.38 5.74c0 4.48-3.65 8.12-8.14 8.12a8.1 8.1 0 0 1-4.13-1.13l-.3-.17-3.13.82.84-3.05-.19-.32a8.06 8.06 0 0 1-1.25-4.33c0-4.48 3.65-8.06 8.17-8.06M8.53 6.7c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.74 2.77 4.29 3.77 2.12.84 2.55.67 3.01.63.46-.04 1.48-.6 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.11-.23-.17-.48-.29-.25-.13-1.48-.73-1.71-.81-.23-.08-.4-.13-.57.13-.17.25-.65.81-.8.98-.15.17-.29.19-.54.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.57-1.37-.78-1.87-.21-.5-.42-.42-.57-.42h-.49"/></svg></div>
           <div class="label">WhatsApp</div>
           <div class="value">0562 14 20 17</div>
           <div class="glow-dot"></div>
         </a>
 
         <a class="contact-card whatsapp" href="https://wa.me/213562142198" target="_blank">
-          <div class="icon">
-            <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.28-1.38a9.9 9.9 0 0 0 4.71 1.2h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2m0 1.8a8.1 8.1 0 0 1 5.75 2.38 8.07 8.07 0 0 1 2.38 5.74c0 4.48-3.65 8.12-8.14 8.12a8.1 8.1 0 0 1-4.13-1.13l-.3-.17-3.13.82.84-3.05-.19-.32a8.06 8.06 0 0 1-1.25-4.33c0-4.48 3.65-8.06 8.17-8.06M8.53 6.7c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.74 2.77 4.29 3.77 2.12.84 2.55.67 3.01.63.46-.04 1.48-.6 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.11-.23-.17-.48-.29-.25-.13-1.48-.73-1.71-.81-.23-.08-.4-.13-.57.13-.17.25-.65.81-.8.98-.15.17-.29.19-.54.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.57-1.37-.78-1.87-.21-.5-.42-.42-.57-.42h-.49"/></svg>
-          </div>
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.28-1.38a9.9 9.9 0 0 0 4.71 1.2h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.86 9.86 0 0 0 12.04 2m0 1.8a8.1 8.1 0 0 1 5.75 2.38 8.07 8.07 0 0 1 2.38 5.74c0 4.48-3.65 8.12-8.14 8.12a8.1 8.1 0 0 1-4.13-1.13l-.3-.17-3.13.82.84-3.05-.19-.32a8.06 8.06 0 0 1-1.25-4.33c0-4.48 3.65-8.06 8.17-8.06M8.53 6.7c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.13.17 1.74 2.77 4.29 3.77 2.12.84 2.55.67 3.01.63.46-.04 1.48-.6 1.69-1.19.21-.58.21-1.08.15-1.19-.06-.11-.23-.17-.48-.29-.25-.13-1.48-.73-1.71-.81-.23-.08-.4-.13-.57.13-.17.25-.65.81-.8.98-.15.17-.29.19-.54.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.57-1.37-.78-1.87-.21-.5-.42-.42-.57-.42h-.49"/></svg></div>
           <div class="label">WhatsApp</div>
           <div class="value">0562 14 21 98</div>
           <div class="glow-dot"></div>
         </a>
 
         <a class="contact-card" href="#">
-          <div class="icon">
-            <svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94"/></svg>
-          </div>
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94"/></svg></div>
           <div class="label">Facebook</div>
           <div class="value">Notre page</div>
           <div class="glow-dot"></div>
         </a>
 
         <a class="contact-card" href="#">
-          <div class="icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2c-4.2 0-7.6 3.4-7.6 7.6 0 5.7 7.6 12.4 7.6 12.4s7.6-6.7 7.6-12.4C19.6 5.4 16.2 2 12 2m0 10.3a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4"/></svg>
-          </div>
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2c-4.2 0-7.6 3.4-7.6 7.6 0 5.7 7.6 12.4 7.6 12.4s7.6-6.7 7.6-12.4C19.6 5.4 16.2 2 12 2m0 10.3a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4"/></svg></div>
           <div class="label">Google Maps</div>
           <div class="value">Nous trouver</div>
           <div class="glow-dot"></div>
         </a>
 
         <a class="contact-card" href="mailto:kmg.usinage@gmail.com">
-          <div class="icon">
-            <svg viewBox="0 0 24 24"><path d="M3 5h18c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1m1.4 2 7.13 5.34a.75.75 0 0 0 .94 0L19.6 7H4.4M4 8.4V17h16V8.4l-6.87 5.14a2.25 2.25 0 0 1-2.66 0L4 8.4"/></svg>
-          </div>
+          <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 5h18c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1H3c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1m1.4 2 7.13 5.34a.75.75 0 0 0 .94 0L19.6 7H4.4M4 8.4V17h16V8.4l-6.87 5.14a2.25 2.25 0 0 1-2.66 0L4 8.4"/></svg></div>
           <div class="label">E‑mail</div>
           <div class="value">kmg.usinage@gmail.com</div>
           <div class="glow-dot"></div>
@@ -497,6 +448,7 @@
 
       </div>
 
+      <!-- SLOGAN -->
       <div class="slogan-block">
         Vos problèmes, <strong>notre passion.</strong>
       </div>
