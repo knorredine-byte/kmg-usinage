@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0a0f1a" />
-  <title>KMG USINAGE — 4.0</title>
+  <title>KMG USINAGE</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -31,6 +31,8 @@
     html, body {
       height: 100%;
       overflow: hidden;
+      margin: 0;
+      padding: 0;
     }
 
     body {
@@ -43,49 +45,44 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px;
     }
 
     .container {
       width: 100%;
-      max-width: 1100px;
-      height: 100%;
-      max-height: 98dvh;
+      height: 100dvh;
       display: flex;
       align-items: center;
+      justify-content: center;
     }
 
-    /* ===== CARTE PRINCIPALE ===== */
+    /* ===== CARTE PLEIN ÉCRAN ===== */
     .card {
       width: 100%;
+      height: 100dvh;
       background: var(--bg-panel);
-      border-radius: 32px;
-      padding: 24px 20px 18px;
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.8),
-        0 0 0 1px var(--border-glow),
-        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      border-radius: 0;
+      padding: 20px 16px 16px;
+      box-shadow: none;
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: box-shadow 0.4s ease;
     }
 
-    /* Animation du contour */
+    /* Animation du contour (plus discret sur mobile) */
     .card::before {
       content: '';
       position: absolute;
       inset: 0;
-      border-radius: inherit;
+      border-radius: 0;
       padding: 1.5px;
       background: conic-gradient(from 0deg at 50% 50%, transparent 0%, var(--cyan) 20%, transparent 40%, var(--cyan) 60%, transparent 80%, var(--cyan) 100%);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
-      opacity: 0.5;
+      opacity: 0.4;
       animation: rotate-border 10s linear infinite;
     }
     @keyframes rotate-border {
@@ -98,7 +95,7 @@
       inset: 0;
       pointer-events: none;
       overflow: hidden;
-      border-radius: inherit;
+      border-radius: 0;
       z-index: 0;
     }
     .particle {
@@ -132,7 +129,7 @@
       position: relative;
       z-index: 2;
       flex-shrink: 0;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .brand-group {
@@ -142,7 +139,7 @@
     }
 
     .logo {
-      font-size: clamp(32px, 7vw, 72px);
+      font-size: clamp(32px, 8vw, 72px);
       font-weight: 700;
       letter-spacing: -2px;
       display: flex;
@@ -178,20 +175,20 @@
     .services-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px 12px;
-      font-size: clamp(9px, 1.2vw, 13px);
+      gap: 4px 10px;
+      font-size: clamp(8px, 1.2vw, 13px);
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: var(--text-muted);
       background: rgba(0, 229, 255, 0.04);
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 40px;
       border: 1px solid rgba(0, 229, 255, 0.08);
     }
     .services-tags span:not(:last-child)::after {
       content: '•';
-      margin-left: 12px;
+      margin-left: 10px;
       color: var(--cyan);
       opacity: 0.3;
     }
@@ -199,22 +196,22 @@
     /* ===== GRILLE CONTACTS ===== */
     .grid-contacts {
       display: grid;
-      gap: 10px;
+      gap: 8px;
       flex: 1 1 auto;
       min-height: 0;
       position: relative;
       z-index: 2;
-      margin: 6px 0 8px;
+      margin: 4px 0 6px;
     }
 
     .contact-card {
       background: rgba(255, 255, 255, 0.02);
-      border-radius: 20px;
-      padding: 12px 4px;
+      border-radius: 18px;
+      padding: 10px 4px;
       text-decoration: none;
       color: var(--text-primary);
       border: 1px solid rgba(255, 255, 255, 0.04);
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -240,20 +237,20 @@
     .contact-card:hover::before { opacity: 1; }
 
     .contact-card .icon {
-      width: 38px;
-      height: 38px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       background: rgba(0, 229, 255, 0.06);
       border: 1px solid rgba(0, 229, 255, 0.12);
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       flex-shrink: 0;
     }
     .contact-card .icon svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       fill: var(--cyan);
     }
 
@@ -265,11 +262,11 @@
 
     .contact-card .label {
       font-weight: 600;
-      font-size: clamp(10px, 1.2vw, 13px);
+      font-size: clamp(9px, 1.1vw, 13px);
       letter-spacing: 0.3px;
     }
     .contact-card .value {
-      font-size: clamp(8px, 1vw, 11px);
+      font-size: clamp(7px, 0.9vw, 11px);
       color: var(--text-muted);
       margin-top: 1px;
       word-break: break-word;
@@ -282,7 +279,7 @@
       border-radius: 50%;
       background: var(--cyan);
       box-shadow: 0 0 8px var(--cyan);
-      margin-top: 4px;
+      margin-top: 3px;
       opacity: 0.5;
       transition: 0.3s;
       flex-shrink: 0;
@@ -295,9 +292,9 @@
 
     /* ===== SLOGAN ===== */
     .slogan-block {
-      padding: 8px 10px;
+      padding: 6px 8px;
       text-align: center;
-      font-size: clamp(13px, 2.2vw, 22px);
+      font-size: clamp(12px, 2vw, 22px);
       font-weight: 600;
       letter-spacing: 1px;
       border-top: 1px solid rgba(0, 229, 255, 0.06);
@@ -315,18 +312,17 @@
     /* ===== RESPONSIVE ===== */
     /* Mobile : 2 colonnes, 3 lignes */
     @media (max-width: 700px) {
-      body { padding: 6px; }
-      .card { padding: 14px 12px 12px; border-radius: 24px; }
-      .header { margin-bottom: 6px; gap: 6px; }
-      .logo { font-size: clamp(28px, 7vw, 42px); }
-      .services-tags { padding: 4px 10px; gap: 2px 8px; font-size: 8px; }
-      .services-tags span:not(:last-child)::after { margin-left: 8px; }
+      .card { padding: 12px 10px 10px; }
+      .header { margin-bottom: 4px; gap: 4px; }
+      .logo { font-size: clamp(26px, 7.5vw, 40px); }
+      .services-tags { padding: 4px 8px; gap: 2px 6px; font-size: 7px; }
+      .services-tags span:not(:last-child)::after { margin-left: 6px; }
 
       .grid-contacts {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
-        gap: 6px;
-        margin: 4px 0 4px;
+        gap: 5px;
+        margin: 3px 0 3px;
       }
 
       /* Le 5e élément (email) prend toute la largeur de la 3e ligne */
@@ -334,34 +330,44 @@
         grid-column: 1 / 3;
       }
 
-      .contact-card { padding: 8px 2px; border-radius: 14px; }
-      .contact-card .icon { width: 30px; height: 30px; margin-bottom: 2px; }
-      .contact-card .icon svg { width: 16px; height: 16px; }
-      .contact-card .label { font-size: 9px; }
-      .contact-card .value { font-size: 7px; }
+      .contact-card { padding: 6px 2px; border-radius: 12px; }
+      .contact-card .icon { width: 28px; height: 28px; margin-bottom: 1px; }
+      .contact-card .icon svg { width: 14px; height: 14px; }
+      .contact-card .label { font-size: 8px; }
+      .contact-card .value { font-size: 6.5px; }
       .contact-card .glow-dot { width: 3px; height: 3px; margin-top: 2px; }
 
       .slogan-block {
-        padding: 4px 6px;
-        font-size: clamp(11px, 2.5vw, 14px);
+        padding: 3px 4px;
+        font-size: clamp(10px, 2.2vw, 13px);
         margin-top: 2px;
       }
     }
 
     /* Très petits écrans (< 380px) */
     @media (max-width: 380px) {
-      .card { padding: 10px 8px 8px; }
-      .logo { font-size: 24px; }
-      .services-tags { font-size: 7px; padding: 2px 6px; }
-      .contact-card .icon { width: 24px; height: 24px; }
-      .contact-card .icon svg { width: 14px; height: 14px; }
-      .contact-card .label { font-size: 8px; }
-      .contact-card .value { font-size: 6px; }
-      .slogan-block { font-size: 10px; }
+      .card { padding: 8px 6px 6px; }
+      .logo { font-size: 22px; }
+      .services-tags { font-size: 6px; padding: 2px 6px; gap: 2px 4px; }
+      .contact-card .icon { width: 22px; height: 22px; }
+      .contact-card .icon svg { width: 12px; height: 12px; }
+      .contact-card .label { font-size: 7px; }
+      .contact-card .value { font-size: 5.5px; }
+      .slogan-block { font-size: 9px; }
     }
 
     /* Desktop / tablette : 5 colonnes sur 1 ligne */
     @media (min-width: 701px) {
+      .card {
+        border-radius: 32px;
+        height: auto;
+        max-height: 96dvh;
+        padding: 30px 30px 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--border-glow);
+      }
+      .card::before { border-radius: 32px; }
+      .bg-particles { border-radius: 32px; }
+
       .grid-contacts {
         grid-template-columns: repeat(5, 1fr);
         grid-template-rows: 1fr;
@@ -373,7 +379,6 @@
       .contact-card { padding: 16px 8px; }
       .contact-card .icon { width: 48px; height: 48px; }
       .contact-card .icon svg { width: 26px; height: 26px; }
-      .card { padding: 30px 30px 20px; }
       .slogan-block { padding: 12px 0; }
     }
   </style>
