@@ -1,9 +1,947 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>KMG USINAGE</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>KMG - Calculateur Devis</title>
+    <style>
+        /* --- RESET & BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background: #0b0e14;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Canvas des particules en fond */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .app-container {
+            max-width: 820px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- EN-TÊTE KMG (Métallique & Sombre) --- */
+        .kmg-header {
+            background: linear-gradient(145deg, #141a24, #0b0f16);
+            border: 1px solid #2a3245;
+            border-radius: 24px;
+            padding: 20px 28px;
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Effet de "brossé métallique" en arrière-plan */
+        .kmg-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(45deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(255, 255, 255, 0.02) 3px,
+                    rgba(255, 255, 255, 0.02) 6px);
+            pointer-events: none;
+        }
+
+        .kmg-header .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 1;
+        }
+
+        .kmg-header h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #f1f5f9;
+            letter-spacing: 1px;
+            line-height: 1;
+        }
+
+        .kmg-header h1 .highlight-g {
+            color: #22d3ee;
+            text-shadow: 0 0 25px rgba(34, 211, 238, 0.4);
+        }
+
+        .kmg-header .sub {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 6px;
+            letter-spacing: 2px;
+            font-weight: 300;
+            padding-left: 2px;
+        }
+
+        .kmg-header .badge-pro {
+            background: linear-gradient(135deg, #0d9488, #06b6d4);
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            white-space: nowrap;
+        }
+
+        /* --- CARTES (Gris Métallique Brossé) --- */
+        .card {
+            background: linear-gradient(145deg, #1a1f2b, #131822);
+            border: 1px solid #2a3245;
+            border-radius: 20px;
+            padding: 20px 22px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: #3b4a6b;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(6, 182, 212, 0.1);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0d9488, #22d3ee, transparent);
+            opacity: 0.3;
+            transition: 0.4s;
+        }
+
+        .card:hover::after {
+            left: 5%;
+            right: 5%;
+            opacity: 1;
+        }
+
+        .card-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #8b9bb5;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-title .icon {
+            font-size: 1.2rem;
+            color: #22d3ee;
+        }
+
+        /* --- GRILLE --- */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 20px;
+        }
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* --- CHAMPS DE SAISIE (Dark) --- */
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #c8d0dc;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
+        }
+        label .unite {
+            font-weight: 400;
+            color: #64748b;
+            font-size: 0.7rem;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #2a3245;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #f1f5f9;
+            background: #0f141f;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        select:focus, input:focus {
+            border-color: #22d3ee;
+            outline: none;
+            background: #141c2b;
+            box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.1), inset 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        select option {
+            background: #0f141f;
+            color: #f1f5f9;
+        }
+
+        .help-text {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 6px;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+
+        /* --- CHECKBOX (Dark) --- */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #0f141f;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 1.5px solid #2a3245;
+            flex-wrap: wrap;
+            transition: 0.3s;
+        }
+        .checkbox-group:hover {
+            border-color: #3b4a6b;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            accent-color: #0d9488;
+            flex-shrink: 0;
+            padding: 0;
+            box-shadow: none;
+            background: transparent;
+            width: 20px;
+            height: 20px;
+        }
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        .tag {
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border: 1px solid #334155;
+        }
+        .tag-orange {
+            background: linear-gradient(135deg, #0d9488, #06b6d4);
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+        }
+
+        /* --- GROUPE DENTURE --- */
+        .denture-group {
+            background: rgba(13, 148, 136, 0.05);
+            border: 1.5px solid #1a3a45;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 12px;
+            transition: 0.3s;
+        }
+        .denture-group:hover {
+            border-color: #0d9488;
+        }
+        .denture-group label {
+            color: #99d1d9;
+        }
+
+        /* --- INFO TRAVAIL --- */
+        .info-travail {
+            font-size: 0.75rem;
+            color: #22d3ee;
+            font-weight: 600;
+            margin-top: 6px;
+            background: rgba(34, 211, 238, 0.05);
+            padding: 6px 14px;
+            border-radius: 30px;
+            display: inline-block;
+            border: 1px solid rgba(34, 211, 238, 0.1);
+        }
+
+        /* --- BOUTON CALCUL --- */
+        .btn-calc {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #0d9488, #06b6d4);
+            color: #fff;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.25);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .btn-calc:hover {
+            transform: scale(0.98);
+            box-shadow: 0 12px 35px rgba(6, 182, 212, 0.4);
+            background: linear-gradient(135deg, #0f766e, #0891b2);
+        }
+        .btn-calc:active {
+            transform: scale(0.95);
+        }
+
+        /* --- RÉSULTATS (Dark Métallique) --- */
+        .result-box {
+            margin-top: 28px;
+            background: linear-gradient(145deg, #1a1f2b, #131822);
+            border: 1px solid #2a3245;
+            border-radius: 20px;
+            padding: 22px 26px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6);
+            transition: 0.3s;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 24px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(42, 50, 69, 0.6);
+        }
+
+        .result-item .label {
+            color: #94a3b8;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+        .result-item .value {
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .result-item.total {
+            grid-column: 1 / -1;
+            border-top: 2px solid #22d3ee;
+            border-bottom: none;
+            margin-top: 10px;
+            padding-top: 20px;
+            padding-bottom: 10px;
+            box-shadow: 0 -5px 20px rgba(34, 211, 238, 0.05);
+        }
+
+        .result-item.total .label {
+            color: #e2e8f0;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .result-item.total .value {
+            color: #22d3ee;
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: rgba(34, 211, 238, 0.05);
+            padding: 0 20px;
+            border-radius: 40px;
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            text-shadow: 0 0 20px rgba(34, 211, 238, 0.2);
+        }
+
+        .result-note {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #64748b;
+            background: #0f141f;
+            padding: 10px 16px;
+            border-radius: 40px;
+            margin-top: 6px;
+            border: 1px solid #1e293b;
+        }
+
+        .btn-reset {
+            grid-column: 1 / -1;
+            background: transparent;
+            border: 1.5px solid #2a3245;
+            padding: 12px;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 8px;
+            background: #0f141f;
+        }
+        .btn-reset:hover {
+            background: #1e293b;
+            border-color: #3b4a6b;
+            color: #e2e8f0;
+        }
+
+        /* --- CACHE --- */
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 600px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .kmg-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                padding: 16px 18px;
+            }
+            .kmg-header .logo-area {
+                width: 100%;
+            }
+            .kmg-header h1 {
+                font-size: 2rem;
+            }
+            .kmg-header .badge-pro {
+                align-self: flex-start;
+                font-size: 0.65rem;
+                padding: 4px 14px;
+            }
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+            .result-item.total .value {
+                font-size: 1.6rem;
+            }
+            .card {
+                padding: 16px;
+            }
+            .checkbox-group {
+                padding: 10px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CANVAS POUR LES PARTICULES LUMINEUSES EN FOND -->
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="app-container">
+
+        <!-- EN-TÊTE KMG (SANS LE PIGNON) -->
+        <div class="kmg-header">
+            <div class="logo-area">
+                <div>
+                    <h1>KM<span class="highlight-g">G</span></h1>
+                    <div class="sub">Tournage · Fraisage · Ajustage · Taillage</div>
+                </div>
+            </div>
+            <span class="badge-pro">Calculateur Devis</span>
+        </div>
+
+        <!-- FORMULAIRE -->
+        <form id="devisForm">
+
+            <!-- CARTE 1 : MATIERE -->
+            <div class="card">
+                <div class="card-title"><span class="icon">🧪</span> 1. Matière première</div>
+                <div class="grid-2">
+                    <div>
+                        <label for="matiere">Famille / Matière</label>
+                        <select id="matiere">
+                            <optgroup label="🥩 Aciers">
+                                <option value="7.85|250|100">Acier doux (S235)</option>
+                                <option value="7.85|320|100">Acier C45 (trempable)</option>
+                                <option value="7.85|400|100">Acier 42CrMo4</option>
+                                <option value="7.85|500|100">Acier 55NiCrMoV7</option>
+                            </optgroup>
+                            <optgroup label="🔩 Inox & Fontes">
+                                <option value="7.90|900|150">Inox 304</option>
+                                <option value="7.90|1400|150">Inox 316</option>
+                                <option value="7.20|300|150">Fonte grise (GG25)</option>
+                            </optgroup>
+                            <optgroup label="🪶 Aluminium & Alliages">
+                                <option value="2.70|600|100">Aluminium AU4G</option>
+                                <option value="2.70|900|100">Aluminium 7075</option>
+                                <option value="8.40|700|100">Laiton</option>
+                                <option value="8.80|1000|100">Bronze</option>
+                                <option value="8.90|1100|100">Cuivre</option>
+                            </optgroup>
+                            <optgroup label="✈️ Superalliages">
+                                <option value="4.50|3500|200">Titane (TA6V)</option>
+                                <option value="8.20|6000|250">Inconel 718</option>
+                            </optgroup>
+                            <optgroup label="🧪 Plastiques">
+                                <option value="1.13|900|100">PA6 (Nylon 6)</option>
+                                <option value="1.41|900|100">POM (Delrin)</option>
+                                <option value="2.20|2500|100">PTFE (Téflon)</option>
+                                <option value="1.30|4500|100">PEEK</option>
+                                <option value="1.35|650|100">Bakélite</option>
+                                <option value="1.19|700|100">PMMA (Acrylique)</option>
+                            </optgroup>
+                        </select>
+                        <div class="help-text">Outillage de base automatique (100 ou 150 DA).</div>
+                    </div>
+                    <div>
+                        <label for="prixKg">💰 Prix au kilo <span class="unite">(DA) - modifiable</span></label>
+                        <input type="number" id="prixKg" value="250" step="1" min="0">
+                        <div class="help-text">Ajuste selon ton fournisseur.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTE 2 : DIMENSIONS -->
+            <div class="card">
+                <div class="card-title"><span class="icon">📐</span> 2. Dimensions de la pièce</div>
+                <div class="grid-2">
+                    <div>
+                        <label for="forme">Forme brute</label>
+                        <select id="forme">
+                            <option value="rond">Cylindre / Rond (tournage)</option>
+                            <option value="plat">Plaque / Rectangulaire (fraisage)</option>
+                        </select>
+                    </div>
+                    <div id="dimRond" class="grid-2 full-width" style="grid-template-columns:1fr 1fr;gap:14px;">
+                        <div>
+                            <label>Diamètre <span class="unite">(mm)</span></label>
+                            <input type="number" id="diametre" value="40" step="0.1" min="1">
+                        </div>
+                        <div>
+                            <label>Longueur <span class="unite">(mm)</span></label>
+                            <input type="number" id="longueur" value="120" step="0.1" min="1">
+                        </div>
+                    </div>
+                    <div id="dimPlat" class="grid-2 full-width hidden" style="grid-template-columns:1fr 1fr 1fr;gap:14px;">
+                        <div><label>Longueur <span class="unite">(mm)</span></label><input type="number" id="longueurPlat" value="100" step="0.1" min="1"></div>
+                        <div><label>Largeur <span class="unite">(mm)</span></label><input type="number" id="largeurPlat" value="80" step="0.1" min="1"></div>
+                        <div><label>Hauteur <span class="unite">(mm)</span></label><input type="number" id="hauteurPlat" value="20" step="0.1" min="1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTE 3 : TYPE DE TRAVAIL -->
+            <div class="card">
+                <div class="card-title"><span class="icon">🔧</span> 3. Type d'opération</div>
+                <div class="grid-2">
+                    <div>
+                        <label for="typeTravail">Catégorie de travail</label>
+                        <select id="typeTravail">
+                            <option value="1500|0">Usinage standard</option>
+                            <option value="1800|500">Denture droite</option>
+                            <option value="2200|1000">Denture hélicoïdale</option>
+                            <option value="2500|1500">Denture conique</option>
+                            <option value="3000|2500">Pignon spiro-conique (attaque)</option>
+                        </select>
+                        <div class="info-travail" id="infoTravail">⚡ Taux horaire et forfait adaptés.</div>
+                    </div>
+                    <div>
+                        <label for="tauxHoraire">Taux horaire atelier <span class="unite">(DA/h)</span></label>
+                        <input type="number" id="tauxHoraire" value="1500" step="100" min="500">
+                        <div class="help-text">Auto-rempli selon le type de travail.</div>
+                    </div>
+                </div>
+                <div class="denture-group full-width">
+                    <div class="grid-2">
+                        <div>
+                            <label for="nombreDents">🦷 Nombre de dents</label>
+                            <input type="number" id="nombreDents" value="0" step="1" min="0" placeholder="ex: 12">
+                        </div>
+                        <div>
+                            <label for="tempsParDent">⏱️ Temps par dent <span class="unite">(minutes)</span></label>
+                            <input type="number" id="tempsParDent" value="0" step="0.5" min="0" placeholder="ex: 5">
+                        </div>
+                    </div>
+                    <div class="help-text">Remplis ces 2 champs pour calculer automatiquement le temps total.</div>
+                </div>
+            </div>
+
+            <!-- CARTE 4 : TEMPS & OUTILLAGE -->
+            <div class="card">
+                <div class="card-title"><span class="icon">⏱️</span> 4. Temps & Consommables</div>
+                <div class="grid-2">
+                    <div>
+                        <label for="temps">Temps d'usinage total <span class="unite">(minutes)</span></label>
+                        <input type="number" id="temps" value="30" step="0.5" min="0">
+                        <div class="help-text">Inclus serrage, contrôle, changements d'outils.</div>
+                    </div>
+                    <div>
+                        <label for="outillage">🔧 Outillage de base <span class="unite">(DA)</span></label>
+                        <input type="number" id="outillage" value="100" step="10" min="100">
+                        <div class="help-text">Auto (100 ou 150 DA), modifiable.</div>
+                    </div>
+                    <div>
+                        <label for="forfaitOutillage">➕ Forfait outillage spécifique <span class="unite">(DA)</span></label>
+                        <input type="number" id="forfaitOutillage" value="0" step="100" min="0">
+                        <div class="help-text">Pour dentures (auto).</div>
+                    </div>
+                    <div class="checkbox-group" style="margin-top:6px;">
+                        <input type="checkbox" id="forfaitMiseRoute">
+                        <label for="forfaitMiseRoute">Forfait mise en route (pièce unique)</label>
+                        <span class="tag tag-orange">+1 500 DA</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTE 5 : MARGE -->
+            <div class="card">
+                <div class="card-title"><span class="icon">📈</span> 5. Marge bénéficiaire</div>
+                <div class="grid-2">
+                    <div>
+                        <label for="marge">Taux de marge <span class="unite">(%)</span></label>
+                        <input type="number" id="marge" value="30" step="1" min="0" max="200">
+                        <div class="help-text">Couvre l'électricité, le loyer, les imprévus.</div>
+                    </div>
+                    <div style="display:flex; align-items:flex-end;">
+                        <button type="button" id="calcBtn" class="btn-calc" style="padding:14px;">🔄 Calculer le devis</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- RÉSULTATS -->
+        <div class="result-box" id="resultats">
+            <div class="result-grid">
+                <div class="result-item"><span class="label">Coût matière</span><span class="value" id="affMatiere">0 DA</span></div>
+                <div class="result-item"><span class="label">Coût usinage</span><span class="value" id="affUsinage">0 DA</span></div>
+                <div class="result-item"><span class="label">Outillage de base</span><span class="value" id="affOutillage">0 DA</span></div>
+                <div class="result-item"><span class="label">Forfait outillage spécifique</span><span class="value" id="affForfaitOutillage">0 DA</span></div>
+                <div class="result-item"><span class="label">Forfait mise en route</span><span class="value" id="affForfait">0 DA</span></div>
+                <div class="result-item"><span class="label">Sous-total (HT)</span><span class="value" id="affSousTotal">0 DA</span></div>
+                <div class="result-item total"><span class="label">💲 PRIX DE VENTE CONSEILLÉ</span><span class="value" id="affTotal">0 DA</span></div>
+                <div class="result-note">✅ Taux horaire, outillage et dentures calculés automatiquement selon ta sélection.</div>
+                <button class="btn-reset" id="resetBtn">⟳ Réinitialiser tous les champs</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // =============================================
+        // 1. PARTICULES LUMINEUSES (Fond d'écran)
+        // =============================================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                // Couleurs : Cyan, Teal, Blanc
+                const colors = [
+                    'rgba(34, 211, 238, ',
+                    'rgba(13, 148, 136, ',
+                    'rgba(255, 255, 255, '
+                ];
+                this.colorBase = colors[Math.floor(Math.random() * colors.length)];
+                this.opacity = Math.random() * 0.7 + 0.3;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > width) this.speedX *= -1;
+                if (this.y < 0 || this.y > height) this.speedY *= -1;
+
+                this.speedX += (Math.random() - 0.5) * 0.02;
+                this.speedY += (Math.random() - 0.5) * 0.02;
+
+                const maxSpeed = 0.6;
+                if (Math.abs(this.speedX) > maxSpeed) this.speedX = Math.sign(this.speedX) * maxSpeed;
+                if (Math.abs(this.speedY) > maxSpeed) this.speedY = Math.sign(this.speedY) * maxSpeed;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.colorBase + this.opacity + ')';
+                ctx.shadowColor = this.colorBase + '0.8)';
+                ctx.shadowBlur = 15;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function initParticles(count = 80) {
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            for (let p of particles) {
+                p.update();
+                p.draw();
+            }
+            // Lignes entre les points proches
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(34, 211, 238, ${0.08 * (1 - distance / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles(70);
+        animateParticles();
+
+
+        // =============================================
+        // 2. LOGIQUE DU CALCULATEUR DE DEVIS
+        // =============================================
+        (function() {
+            const matiere = document.getElementById('matiere');
+            const prixKg = document.getElementById('prixKg');
+            const forme = document.getElementById('forme');
+            const typeTravail = document.getElementById('typeTravail');
+            const dimRond = document.getElementById('dimRond');
+            const dimPlat = document.getElementById('dimPlat');
+
+            const diametre = document.getElementById('diametre');
+            const longueur = document.getElementById('longueur');
+            const longueurPlat = document.getElementById('longueurPlat');
+            const largeurPlat = document.getElementById('largeurPlat');
+            const hauteurPlat = document.getElementById('hauteurPlat');
+
+            const temps = document.getElementById('temps');
+            const tauxHoraire = document.getElementById('tauxHoraire');
+            const outillage = document.getElementById('outillage');
+            const forfaitOutillage = document.getElementById('forfaitOutillage');
+            const forfaitCheck = document.getElementById('forfaitMiseRoute');
+            const marge = document.getElementById('marge');
+            const nombreDents = document.getElementById('nombreDents');
+            const tempsParDent = document.getElementById('tempsParDent');
+
+            const affMatiere = document.getElementById('affMatiere');
+            const affUsinage = document.getElementById('affUsinage');
+            const affOutillage = document.getElementById('affOutillage');
+            const affForfaitOutillage = document.getElementById('affForfaitOutillage');
+            const affForfait = document.getElementById('affForfait');
+            const affSousTotal = document.getElementById('affSousTotal');
+            const affTotal = document.getElementById('affTotal');
+
+            const calcBtn = document.getElementById('calcBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const infoTravail = document.getElementById('infoTravail');
+
+            function updateMateriaux() {
+                const selected = matiere.options[matiere.selectedIndex];
+                const parts = selected.value.split('|');
+                const price = parseFloat(parts[1]) || 250;
+                let outil = parseInt(parts[2]) || 100;
+                if (outil < 100) outil = 100;
+                if (outil !== 100 && outil !== 150) outil = (outil > 125) ? 150 : 100;
+                prixKg.value = price;
+                outillage.value = outil;
+                updateTypeTravail();
+                calculerDevis();
+            }
+
+            function updateTypeTravail() {
+                const selected = typeTravail.options[typeTravail.selectedIndex];
+                const parts = selected.value.split('|');
+                const taux = parseInt(parts[0]) || 1500;
+                const forfait = parseInt(parts[1]) || 0;
+                tauxHoraire.value = taux;
+                forfaitOutillage.value = forfait;
+                const libelle = selected.text;
+                let msg = '⚡ Taux horaire et forfait adaptés.';
+                if (libelle.includes('spiro-conique')) msg = '⚠️ Spiro-conique : majoration à 3 000 DA/h.';
+                else if (libelle.includes('conique')) msg = '🔺 Denture conique : 2 500 DA/h.';
+                else if (libelle.includes('hélicoïdale')) msg = '🌀 Denture hélicoïdale : 2 200 DA/h.';
+                else if (libelle.includes('droite')) msg = '⚙️ Denture droite : 1 800 DA/h.';
+                else msg = '⚡ Usinage standard : 1 500 DA/h.';
+                infoTravail.textContent = msg;
+            }
+
+            function calculerTempsAuto() {
+                const nb = parseInt(nombreDents.value) || 0;
+                const tps = parseFloat(tempsParDent.value) || 0;
+                if (nb > 0 && tps > 0) temps.value = nb * tps;
+                calculerDevis();
+            }
+
+            function toggleForme() {
+                if (forme.value === 'rond') {
+                    dimRond.classList.remove('hidden');
+                    dimRond.style.display = 'grid';
+                    dimPlat.classList.add('hidden');
+                    dimPlat.style.display = 'none';
+                } else {
+                    dimRond.classList.add('hidden');
+                    dimRond.style.display = 'none';
+                    dimPlat.classList.remove('hidden');
+                    dimPlat.style.display = 'grid';
+                }
+            }
+
+            function calculerDevis() {
+                const selected = matiere.options[matiere.selectedIndex];
+                const parts = selected.value.split('|');
+                const densite = parseFloat(parts[0]) || 7.85;
+                const prixKgVal = parseFloat(prixKg.value) || 0;
+
+                let volumeMm3 = 0;
+                if (forme.value === 'rond') {
+                    const d = parseFloat(diametre.value) || 0;
+                    const l = parseFloat(longueur.value) || 0;
+                    if (d > 0 && l > 0) volumeMm3 = (Math.PI * d * d / 4) * l;
+                } else {
+                    const l = parseFloat(longueurPlat.value) || 0;
+                    const w = parseFloat(largeurPlat.value) || 0;
+                    const h = parseFloat(hauteurPlat.value) || 0;
+                    if (l > 0 && w > 0 && h > 0) volumeMm3 = l * w * h;
+                }
+
+                const poidsKg = (volumeMm3 * densite) / 1000000;
+                const coutMatiere = poidsKg * prixKgVal;
+                const tempsMin = parseFloat(temps.value) || 0;
+                const taux = parseFloat(tauxHoraire.value) || 1500;
+                const coutUsinage = (tempsMin / 60) * taux;
+                let coutOutillage = parseFloat(outillage.value) || 0;
+                if (coutOutillage < 100) { coutOutillage = 100; outillage.value = 100; }
+                const coutForfaitOutillage = parseFloat(forfaitOutillage.value) || 0;
+                const forfait = forfaitCheck.checked ? 1500 : 0;
+                const sousTotal = coutMatiere + coutUsinage + coutOutillage + coutForfaitOutillage + forfait;
+                const margePercent = parseFloat(marge.value) || 0;
+                const totalTTC = sousTotal * (1 + (margePercent / 100));
+
+                const fmt = (val) => Math.round(val).toLocaleString('fr-DZ') + ' DA';
+                affMatiere.textContent = fmt(coutMatiere);
+                affUsinage.textContent = fmt(coutUsinage);
+                affOutillage.textContent = fmt(coutOutillage);
+                affForfaitOutillage.textContent = fmt(coutForfaitOutillage);
+                affForfait.textContent = fmt(forfait);
+                affSousTotal.textContent = fmt(sousTotal);
+                affTotal.textContent = fmt(totalTTC);
+            }
+
+            matiere.addEventListener('change', function() { updateMateriaux(); });
+            typeTravail.addEventListener('change', function() { updateTypeTravail(); calculerDevis(); });
+            forme.addEventListener('change', function() { toggleForme(); calculerDevis(); });
+            nombreDents.addEventListener('input', calculerTempsAuto);
+            tempsParDent.addEventListener('input', calculerTempsAuto);
+
+            const inputs = document.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (input.id !== 'matiere' && input.id !== 'typeTravail' && input.id !== 'nombreDents' && input.id !== 'tempsParDent') {
+                    input.addEventListener('input', calculerDevis);
+                    input.addEventListener('change', calculerDevis);
+                }
+            });
+
+            outillage.addEventListener('input', function() {
+                if (parseInt(this.value) < 100) this.value = 100;
+                calculerDevis();
+            });
+
+            calcBtn.addEventListener('click', calculerDevis);
+
+            function resetAll() {
+                matiere.value = '7.85|250|100';
+                updateMateriaux();
+                forme.value = 'rond';
+                toggleForme();
+                typeTravail.value = '1500|0';
+                updateTypeTravail();
+                document.getElementById('diametre').value = 40;
+                document.getElementById('longueur').value = 120;
+                document.getElementById('longueurPlat').value = 100;
+                document.getElementById('largeurPlat').value = 80;
+                document.getElementById('hauteurPlat').value = 20;
+                document.getElementById('temps').value = 30;
+                document.getElementById('tauxHoraire').value = 1500;
+                document.getElementById('outillage').value = 100;
+                document.getElementById('forfaitOutillage').value = 0;
+                document.getElementById('forfaitMiseRoute').checked = false;
+                document.getElementById('marge').value = 30;
+                document.getElementById('nombreDents').value = 0;
+                document.getElementById('tempsParDent').value = 0;
+                calculerDevis();
+            }
+            resetBtn.addEventListener('click', resetAll);
+
+            toggleForme();
+            updateMateriaux();
+            updateTypeTravail();
+            calculerDevis();
+        })();
+    </script>
+</body>
+</html>
